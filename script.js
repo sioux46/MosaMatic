@@ -1,5 +1,6 @@
 let manualMode = false;
 let selectedPiece = { w: 1, h: 1, class: 'c1' };
+let borderPix;
 
 $(document).ready(function () {
     $('#mosaicForm').submit(function (event) {
@@ -31,6 +32,13 @@ $(document).ready(function () {
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
     let L = parseInt($('#width').val());
+
+    if ( H < 20 || L < 20 ) borderPix = "4px";
+    else if ( H < 40 || L < 40 ) borderPix = "3px";
+    else if ( H < 60 || L < 60 ) borderPix = "2px";
+    else if ( H < 120 || L < 120 ) borderPix = "1px";
+    else borderPix = "0px";
+
     let colors = {
         c1: $('#color1').val(), c2: $('#color2').val(),
         c3: $('#color3').val(), c4: $('#color4').val()
@@ -90,10 +98,10 @@ function renderGrid(grid, H, L, colors) {
       borders.left = col === 0 || grid[row][col - 1] !== cls;
 
       // Applique les bordures si nécessaires
-      tile.style.borderTop = borders.top ? "4px solid #333" : "none";
-      tile.style.borderRight = borders.right ? "4px solid #333" : "none";
-      tile.style.borderBottom = borders.bottom ? "4px solid #333" : "none";
-      tile.style.borderLeft = borders.left ? "4px solid #333" : "none";
+      tile.style.borderTop = borders.top ? borderPix + " solid #333" : "none";
+      tile.style.borderRight = borders.right ?  borderPix + " solid #333" : "none";
+      tile.style.borderBottom = borders.bottom ?  borderPix + " solid #333" : "none";
+      tile.style.borderLeft = borders.left ?  borderPix + " solid #333" : "none";
 
       // Coins arrondis
       let radius = "0px"; // Ajustez selon l'effet désiré
