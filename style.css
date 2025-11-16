@@ -1,11 +1,13 @@
 #mosaic {
   display: grid;
-  border: 2px solid #222;
   margin-top: 20px;
+  width: 100%;                  /* Occuper toute la largeur */
 }
 
 .tile {
-  border: 1px solid #fff;
+  /* border: 1px solid #fff;
+  border: 1px solid transparent;  Pas visible */
+  border: none;
   cursor: pointer;
 }
 

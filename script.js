@@ -60,9 +60,9 @@ function generateMosaicGrid() {
 }
 
 function renderGrid(grid, H, L, colors) {
-    let html = `<div id="mosaic" style="grid-template-columns: repeat(${L}, 25px);">`;
+    let html = `<div id="mosaic" style="grid-template-columns: repeat(${L}, 1fr);">`;
     grid.flat().forEach(type => {
-        html += `<div class="tile ${type}" style="background-color:${colors[type]}; width:25px; height:25px;"></div>`;
+        html += `<div class="tile ${type}" style="background-color:${colors[type]};  aspect-ratio: 1;"></div>`;
     });
     html += '</div>';
     $('#mosaicContainer').html(html);
@@ -73,6 +73,34 @@ function renderGrid(grid, H, L, colors) {
         let row = Math.floor(idx / L);
         let col = idx % L;
         placeManualPiece(row, col);
+    });
+
+    $(".tile").each(function (index) {
+      let tile = this;
+      let row = Math.floor(index / L);
+      let col = index % L;
+      let cls = tile.classList[1];
+
+      let borders = {};
+
+      // Vérifie chaque direction (haut, droite, bas, gauche)
+      borders.top = row === 0 || grid[row - 1][col] !== cls;
+      borders.right = col === L - 1 || grid[row][col + 1] !== cls;
+      borders.bottom = row === H - 1 || grid[row + 1][col] !== cls;
+      borders.left = col === 0 || grid[row][col - 1] !== cls;
+
+      // Applique les bordures si nécessaires
+      tile.style.borderTop = borders.top ? "4px solid #333" : "none";
+      tile.style.borderRight = borders.right ? "4px solid #333" : "none";
+      tile.style.borderBottom = borders.bottom ? "4px solid #333" : "none";
+      tile.style.borderLeft = borders.left ? "4px solid #333" : "none";
+
+      // Coins arrondis
+      let radius = "0px"; // Ajustez selon l'effet désiré
+      tile.style.borderTopLeftRadius = borders.top && borders.left ? radius : "0";
+      tile.style.borderTopRightRadius = borders.top && borders.right ? radius : "0";
+      tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
+      tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
     });
 }
 
