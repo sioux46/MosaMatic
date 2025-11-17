@@ -9,38 +9,62 @@
 </head>
 <body>
     <div class="container mt-4 mb-5">
-        <h1 class="text-center">MosaMatic</h1>
-        <form id="mosaicForm" class="row g-3">
-            <div class="col-md-2">
-                <label class="form-label">Hauteur (H)</label>
-                <input type="number" class="form-control" id="height" min="1" value="6">
+        <h1 class="text-center mb-4">MosaMatic</h1>
+        <form id="mosaicForm">
+          <div class="row mb-3">
+              <div class="col-md-3 col-sm-6 mb-2">
+                  <label for="color1">Couleur 1x1</label>
+                  <input type="color" id="color1" value="#9d947d" class="form-control color-input">
+              </div>
+              <div class="col-md-3 col-sm-6 mb-2">
+                  <label for="color2">Couleur 2x2</label>
+                  <input type="color" id="color2" value="#dccbcc" class="form-control color-input">
+              </div>
+              <div class="col-md-3 col-sm-6 mb-2">
+                  <label for="color3">Couleur 1x2</label>
+                  <input type="color" id="color3" value="#646d82" class="form-control color-input">
+              </div>
+              <div class="col-md-3 col-sm-6 mb-2">
+                  <label for="color4">Couleur 2x1</label>
+                  <input type="color" id="color4" value="#afc1c0" class="form-control color-input">
+              </div>
+          </div>
+          <div class="row mb-3">
+              <div class="col">
+                  <label for="height">Hauteur</label>
+                  <input type="number" id="height" class="form-control" placeholder="Hauteur (H)" value="6">
+              </div>
+              <div class="col">
+                  <label for="width">Largeur</label>
+                  <input type="number" id="width" class="form-control" placeholder="Largeur (L)" value="6">
+              </div>
+          </div>
+          <div class="row mb-3 ms-5">
+            <div class="col form-check">
+              <input class="form-check-input" type="checkbox" value="" id="frame">
+              <label class="form-check-label" for="frame">
+                Encadrement
+              </label>
             </div>
-            <div class="col-md-2">
-                <label class="form-label">Largeur (L)</label>
-                <input type="number" class="form-control" id="width" min="1" value="6">
+            <div class="col">
+                <label for="angle">Arrondis</label>
+                <input type="number" id="angle" class="form-control" placeholder="de O à 1000" value="30">
             </div>
-            <div class="col-md-2">
-                <label class="form-label">Couleur 1x1</label>
-                <input type="color" id="color1" class="form-control" value="#9d947d">
+            <div class="col form-check">
+              <input class="form-check-input" type="checkbox" value="" id="tileBorder">
+              <label class="form-check-label" for="tileBorder">
+                Bordures
+              </label>
             </div>
-            <div class="col-md-2">
-                <label class="form-label">Couleur 2x2</label>
-                <input type="color" id="color2" class="form-control" value="#dccbcc">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Couleur 1x2</label>
-                <input type="color" id="color3" class="form-control" value="#646d82">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Couleur 2x1</label>
-                <input type="color" id="color4" class="form-control" value="#afc1c0">
-            </div>
-            <div class="col-md-3">
+          </div>
+          <div class="row mb-4">
+            <div class="col">
                 <button type="submit" class="btn btn-primary w-100 mt-2">Génération de la mosaïque</button>
             </div>
-            <div class="col-md-3">
+            <div class="col">
                 <button id="exportBtn" type="button" class="btn btn-secondary w-100 mt-2">Exportation de l'image</button>
             </div>
+          </div>
             <!--
             <div class="col-md-3">
                 <button id="toggleManualBtn" type="button" class="btn btn-warning w-100 mt-2">Mode Manuel</button>

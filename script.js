@@ -1,6 +1,6 @@
 let manualMode = false;
 let selectedPiece = { w: 1, h: 1, class: 'c1' };
-let borderPix;
+let frameColor = "#444";
 
 $(document).ready(function () {
     $('#mosaicForm').submit(function (event) {
@@ -33,12 +33,6 @@ function generateMosaicGrid() {
     let H = parseInt($('#height').val());
     let L = parseInt($('#width').val());
 
-    if ( H < 20 || L < 20 ) borderPix = "4px";
-    else if ( H < 40 || L < 40 ) borderPix = "3px";
-    else if ( H < 60 || L < 60 ) borderPix = "2px";
-    else if ( H < 120 || L < 120 ) borderPix = "1px";
-    else borderPix = "0px";
-
     let colors = {
         c1: $('#color1').val(), c2: $('#color2').val(),
         c3: $('#color3').val(), c4: $('#color4').val()
@@ -63,7 +57,6 @@ function generateMosaicGrid() {
             }
         }
     }
-
     renderGrid(grid, H, L, colors);
 }
 
@@ -97,19 +90,37 @@ function renderGrid(grid, H, L, colors) {
       borders.bottom = row === H - 1 || grid[row + 1][col] !== cls;
       borders.left = col === 0 || grid[row][col - 1] !== cls;
 
+      let borderPix = "0px;";
+      if ( $("#tileBorder").get(0).checked ) {
+        if ( H < 20 || L < 20 ) borderPix = "4px";
+        else if ( H < 40 || L < 40 ) borderPix = "3px";
+        else if ( H < 60 || L < 60 ) borderPix = "2px";
+        else if ( H < 120 || L < 120 ) borderPix = "1px";
+        else borderPix = "0px";
+      }
+
       // Applique les bordures si nécessaires
-      tile.style.borderTop = borders.top ? borderPix + " solid #333" : "none";
-      tile.style.borderRight = borders.right ?  borderPix + " solid #333" : "none";
-      tile.style.borderBottom = borders.bottom ?  borderPix + " solid #333" : "none";
-      tile.style.borderLeft = borders.left ?  borderPix + " solid #333" : "none";
+
+        tile.style.borderTop = borders.top ? borderPix + " solid " + frameColor : "none";
+        tile.style.borderRight = borders.right ?  borderPix + " solid " + frameColor : "none";
+        tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + frameColor : "none";
+        tile.style.borderLeft = borders.left ?  borderPix + " solid " + frameColor : "none";
+
+
 
       // Coins arrondis
-      let radius = "10px"; // Ajustez selon l'effet désiré
+      // let radius = parseInt($("#angle").val()); // "10px"; // Ajustez selon l'effet désiré
+      let radius = $("#angle").val() + "px"; // "10px"; // Ajustez selon l'effet désiré
       tile.style.borderTopLeftRadius = borders.top && borders.left ? radius : "0";
       tile.style.borderTopRightRadius = borders.top && borders.right ? radius : "0";
       tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
       tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
     });
+
+
+    let frame = $("#frame").get(0).checked;
+    if ( frame) $("#mosaic").css("border", "6px solid " + frameColor);
+    else $("#mosaic").css("border", "none");
 }
 
 function setupManualSelector() {

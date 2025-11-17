@@ -2,7 +2,7 @@
   display: grid;
   margin-top: 20px;
   width: 100%;                  /* Occuper toute la largeur */
-  border: 4px solid #333;
+  border: 4px solid #555;
 }
 
 .tile {
@@ -22,4 +22,8 @@
   width: 60px;
   height: 30px;
   border: none;
+}
+
+#angle {
+  text-align: center;
 }
