@@ -104,7 +104,7 @@ function renderGrid(grid, H, L, colors) {
       tile.style.borderLeft = borders.left ?  borderPix + " solid #333" : "none";
 
       // Coins arrondis
-      let radius = "0px"; // Ajustez selon l'effet désiré
+      let radius = "10px"; // Ajustez selon l'effet désiré
       tile.style.borderTopLeftRadius = borders.top && borders.left ? radius : "0";
       tile.style.borderTopRightRadius = borders.top && borders.right ? radius : "0";
       tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
