@@ -3,30 +3,37 @@ let selectedPiece = { w: 1, h: 1, class: 'c1' };
 let frameColor = "#444";
 
 $(document).ready(function () {
-    $('#mosaicForm').submit(function (event) {
-        event.preventDefault();
-        manualMode = false;
-        generateMosaicGrid();
-    });
 
-    $('#toggleManualBtn').click(function () {
-        manualMode = !manualMode;
-        if (manualMode) {
-            alert('Mode manuel activé : cliquez sur les cases pour placer des pièces.');
-            setupManualSelector();
-        } else {
-            $('#manualPieceSelector').remove();
-        }
-    });
+  $('#mosaicForm').submit(function (event) {
+      event.preventDefault();
+      manualMode = false;
+      generateMosaicGrid();
+  });
 
-    $('#exportBtn').click(function () {
-        html2canvas(document.querySelector("#mosaic")).then(canvas => {
-            let link = document.createElement('a');
-            link.href = canvas.toDataURL("image/png");
-            link.download = "mosaique.png";
-            link.click();
-        });
-    });
+  $('#toggleManualBtn').click(function () {
+      manualMode = !manualMode;
+      if (manualMode) {
+          alert('Mode manuel activé : cliquez sur les cases pour placer des pièces.');
+          setupManualSelector();
+      } else {
+          $('#manualPieceSelector').remove();
+      }
+  });
+
+  $('#exportBtn').click(function () {
+      html2canvas(document.querySelector("#mosaic")).then(canvas => {
+          let link = document.createElement('a');
+          link.href = canvas.toDataURL("image/png");
+          link.download = "mosaique.png";
+          link.click();
+      });
+  });
+
+  $("h1").click(() => {
+    // window.location = "http://localhost:8888/MosaMatic/";
+    if ( window.location.href.lastIndexOf("8888") == -1 )
+        window.location = "https://www.siouxlog.fr/MosaMatic/";window.location = "https://www.siouxlog.fr/MosaMatic2/";
+  });
 });
 
 function generateMosaicGrid() {
