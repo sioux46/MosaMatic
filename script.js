@@ -2,40 +2,6 @@ let manualMode = false;
 let selectedPiece = { w: 1, h: 1, class: 'c1' };
 let frameColor = "#444";
 
-$(document).ready(function () {
-
-  $('#mosaicForm').submit(function (event) {
-      event.preventDefault();
-      manualMode = false;
-      generateMosaicGrid();
-  });
-
-  $('#toggleManualBtn').click(function () {
-      manualMode = !manualMode;
-      if (manualMode) {
-          alert('Mode manuel activé : cliquez sur les cases pour placer des pièces.');
-          setupManualSelector();
-      } else {
-          $('#manualPieceSelector').remove();
-      }
-  });
-
-  $('#exportBtn').click(function () {
-      html2canvas(document.querySelector("#mosaic")).then(canvas => {
-          let link = document.createElement('a');
-          link.href = canvas.toDataURL("image/png");
-          link.download = "mosaique.png";
-          link.click();
-      });
-  });
-
-  $("h1").click(() => {
-    // window.location = "http://localhost:8888/MosaMatic/";
-    if ( window.location.href.lastIndexOf("8888") == -1 )
-        window.location = "https://www.siouxlog.fr/MosaMatic/";window.location = "https://www.siouxlog.fr/MosaMatic2/";
-  });
-});
-
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
     let L = parseInt($('#width').val());
@@ -176,3 +142,124 @@ function placePiece(grid, y, x, dh, dw, cls) {
         }
     }
 }
+
+function changeRadius(val) {
+  let v = val;
+  if ( v <= 0 ) v = 1;
+  v = v + "px";
+  let tiles = $(".tile");
+  for ( let t of tiles ) {
+    if ( $(t).css("border-top-left-radius") != "0px" ) $(t).css("border-top-left-radius", v);
+    if ( $(t).css("border-top-right-radius") != "0px" ) $(t).css("border-top-right-radius", v);
+    if ( $(t).css("border-bottom-left-radius") != "0px" ) $(t).css("border-bottom-left-radius", v);
+    if ( $(t).css("border-bottom-right-radius") != "0px" ) $(t).css("border-bottom-right-radius", v);
+  }
+}
+
+function changeColor(color, val) {
+  let tiles = $(".tile");
+  let rgb;
+  for ( let t of tiles ) {
+    if ( $(t).hasClass(color) ) {
+      rgb = hexToRgb(val);
+      $(t).css("background-color", rgb);
+    }
+  }
+}
+
+function changeFrame(frame) {
+  if ( frame ) $("#mosaic").css("border", "6px solid " + frameColor);
+  else $("#mosaic").css("border", "none");
+}
+
+function rgbToHex(rgb) {
+  // extrait les nombres de la chaîne "rgb(r, g, b)"
+  const [r, g, b] = rgb.match(/\d+/g).map(Number);
+  // convertit chaque composante en hex et pad avec un 0 si nécessaire
+  const toHex = (n) => n.toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+// Exemple
+// console.log(rgbToHex('rgb(12, 34, 56)')); // → #0c2238
+
+function hexToRgb(hex) {
+  // enlève le # si présent
+  hex = hex.replace(/^#/, '');
+
+  // gestion du format court #rgb
+  if (hex.length === 3) {
+    hex = hex.split('').map(c => c + c).join('');
+  }
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+// Exemples
+console.log(hexToRgb("#0c2238")); // → rgb(12, 34, 56)
+console.log(hexToRgb("#fff"));    // → rgb(255, 255, 255)
+
+
+/////////////////////////////////////////////////////////////////// R E A D Y
+$(document).ready(function () {
+
+  $(document).on("change", "#color1", function(e) {
+    changeColor("c1", this.value);
+  });
+  $(document).on("change", "#color2", function(e) {
+    changeColor("c2", this.value);
+  });
+  $(document).on("change", "#color3", function(e) {
+    changeColor("c3", this.value);
+  });
+  $(document).on("change", "#color4", function(e) {
+    changeColor("c4", this.value);
+  });
+
+  $(document).on("change", "#angle", function(e) {
+    changeRadius(this.value);
+  });
+
+  $(document).on("change", "#frame", function(e) {
+    changeFrame(this.checked);
+  });
+
+
+  $('#mosaicForm').submit(function (event) {
+      event.preventDefault();
+      manualMode = false;
+      generateMosaicGrid();
+  });
+
+  $('#toggleManualBtn').click(function () {
+      manualMode = !manualMode;
+      if (manualMode) {
+          alert('Mode manuel activé : cliquez sur les cases pour placer des pièces.');
+          setupManualSelector();
+      } else {
+          $('#manualPieceSelector').remove();
+      }
+  });
+
+  $('#exportBtn').click(function () {
+      html2canvas(document.querySelector("#mosaic")).then(canvas => {
+          let link = document.createElement('a');
+          link.href = canvas.toDataURL("image/png");
+          link.download = "mosaique.png";
+          link.click();
+      });
+  });
+
+  $("h1").click(() => {
+    // window.location = "http://localhost:8888/MosaMatic/";
+    if ( window.location.href.lastIndexOf("8888") == -1 )
+        window.location = "https://www.siouxlog.fr/MosaMatic2/";
+  });
+
+  $("#clearBtn").click(() => {
+    $("#mosaicContainer").html("");
+  });
+
+});
