@@ -82,7 +82,6 @@ function renderGrid(grid, H, L, colors) {
 
 
       // Coins arrondis
-      // let radius = parseInt($("#angle").val()); // "10px"; // Ajustez selon l'effet désiré
       let radius = $("#angle").val() + "px"; // "10px"; // Ajustez selon l'effet désiré
       tile.style.borderTopLeftRadius = borders.top && borders.left ? radius : "0";
       tile.style.borderTopRightRadius = borders.top && borders.right ? radius : "0";
@@ -93,7 +92,7 @@ function renderGrid(grid, H, L, colors) {
 
     let frame = $("#frame").get(0).checked;
     if ( frame) $("#mosaic").css("border", "6px solid " + frameColor);
-    else $("#mosaic").css("border", "none");
+    else $("#mosaic").css("border", "6px solid white");
 }
 
 function setupManualSelector() {
@@ -168,8 +167,28 @@ function changeColor(color, val) {
 }
 
 function changeFrame(frame) {
-  if ( frame ) $("#mosaic").css("border", "6px solid " + frameColor);
-  else $("#mosaic").css("border", "none");
+
+  let color;
+  if ( frame ) color = frameColor;
+  else color = "white";
+
+  if ( /android|iphone|kindle|ipad/i.test(navigator.userAgent) ) {
+    $("#mosaic").css("border", "6px solid " + color);
+    $("#mosaic").css("padding-right", "16px !important");
+
+  }
+  else {
+    $("#mosaic").css("border", "6px solid " + color);
+    $("#mosaic").css("padding-right","4px !important");
+  }
+}
+
+function changeSquare(square) {
+  if (square) {
+    $("#height").val($("#width").val());
+    $("#height2").val($("#width").val());
+  }
+  $("#submit").trigger("click");
 }
 
 function rgbToHex(rgb) {
@@ -205,27 +224,81 @@ console.log(hexToRgb("#fff"));    // → rgb(255, 255, 255)
 /////////////////////////////////////////////////////////////////// R E A D Y
 $(document).ready(function () {
 
-  $(document).on("change", "#color1", function(e) {
+////// color
+  $(document).on("input", "#color1", function(e) {
     changeColor("c1", this.value);
   });
-  $(document).on("change", "#color2", function(e) {
+  $(document).on("input", "#color2", function(e) {
     changeColor("c2", this.value);
   });
-  $(document).on("change", "#color3", function(e) {
+  $(document).on("input", "#color3", function(e) {
     changeColor("c3", this.value);
   });
-  $(document).on("change", "#color4", function(e) {
+  $(document).on("input", "#color4", function(e) {
     changeColor("c4", this.value);
   });
 
-  $(document).on("change", "#angle", function(e) {
+  ////// angle
+  $(document).on("input", "#angle", function(e) {
     changeRadius(this.value);
+    $("#angle2").val(this.value);
   });
+  $(document).on("input", "#angle2", function (e) {
+    changeRadius(this.value);
+    $("#angle").val(this.value);
+  });
+
+  ////// H & L
+  $(document).on("input", "#height", function(e) {
+    //changeRadius(this.value);
+    $("#height2").val(this.value);
+  });
+
+  $(document).on("input", "#height2", function(e) {
+    //changeRadius(this.value);
+    $("#height").val(this.value);
+  });
+
+  $(document).on("input", "#width", function(e) {
+    //changeRadius(this.value);
+    $("#width2").val(this.value);
+  });
+
+  $(document).on("input", "#width2", function(e) {
+    //changeRadius(this.value);
+    $("#width").val(this.value);
+  });
+/////
 
   $(document).on("change", "#frame", function(e) {
     changeFrame(this.checked);
   });
 
+  $(document).on("change", "#square", function(e) {
+    if ( $("#square")[0].checked && $("#width").val() != $("#height").val() )
+                  changeSquare(this.checked);
+  });
+
+  $(document).on("change", "#width, #width2", function(e) {
+    if ( $("#square")[0].checked ) {
+      $("#height").val($("#width").val());
+      $("#height2").val($("#width").val());
+    }
+    $("#submit").trigger("click");
+  });
+
+  $(document).on("change", "#height, #height2", function(e) {
+    if ( $("#square")[0].checked ) {
+      $("#width").val($("#height").val());
+      $("#width2").val($("#height").val());
+    }
+    $("#submit").trigger("click");
+  });
+/////
+
+  $(document).on("change", "#tileBorder", function(e) {
+    generateMosaicGrid();
+  });
 
   $('#mosaicForm').submit(function (event) {
       event.preventDefault();
@@ -252,7 +325,7 @@ $(document).ready(function () {
       });
   });
 
-  $("h1").click(() => {
+  $("span").click(() => {
     // window.location = "http://localhost:8888/MosaMatic/";
     if ( window.location.href.lastIndexOf("8888") == -1 )
         window.location = "https://www.siouxlog.fr/MosaMatic2/";
@@ -261,5 +334,9 @@ $(document).ready(function () {
   $("#clearBtn").click(() => {
     $("#mosaicContainer").html("");
   });
+
+  $("#square").trigger("click");
+  $("#submit").trigger("click");
+  $("#mosaic").css({border: "4px solid #444 !important"});
 
 });

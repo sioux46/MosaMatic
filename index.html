@@ -3,36 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MosaMatic modern</title>
+    <title>MosaMatic moderne</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container-fluid mt-4 mb-5">
-        <h1 class="text-center mb-0">MosaMatic</h1>
-        <h5 class="text-center mb-2">Moderne</h1>
-        <form id="mosaicForm">
+    <div class="container-fluid mt-4 mb-5" style="position: relative; top: -20px;">
+        <h1 class="text-center" style="margin-bottom:0;"><span>MosaMatic</span></h1>
+        <h6 class="text-center">Moderne</h6>
+        <div id="mosaicContainer" style="position: relative; top: -20px;"></div>
+
+        <form id="mosaicForm" style="position:relative; top: -20px">
+          <!---->
+          <div class="row mb-1 mt-1">
+            <div class="col">
+                <button id="exportBtn" type="button" class="btn btn-sm btn-light w-100">Export</button>
+            </div>
+            <div class="col">
+                <button id="submit" type="submit" class="btn btn-sm btn-dark w-100">Mosaïque</button>
+            </div>
+          </div>
           <!---->
           <div class="row mb-1">
-              <div class="col-md-3 col-sm-6 mb-1">
+              <div class="col-md-3 col-sm-6">
                 <div class="input-group">
                   <div class="input-group-text">Carré 1x1&nbsp;</div>
-                  <input type="color" id="color1" value="#9d947d" class="form-control color-input">
+                  <input type="color" id="color1" value="#d05860" class="form-control color-input">
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-1">
+              <div class="col-md-3 col-sm-6">
                 <div class="input-group">
                   <div class="input-group-text">Carré 2x2</div>
                   <input type="color" id="color2" value="#dccbcc" class="form-control color-input">
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-1">
+              <div class="col-md-3 col-sm-6">
                 <div class="input-group">
                   <div class="input-group-text">Rect. 1x2&nbsp;</div>
                   <input type="color" id="color3" value="#646d82" class="form-control color-input">
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 mb-1">
+              <div class="col-md-3 col-sm-6">
                 <div class="input-group">
                   <div class="input-group-text">Rect. 2x1&nbsp;</div>
                   <input type="color" id="color4" value="#afc1c0" class="form-control color-input">
@@ -40,62 +51,70 @@
               </div>
           </div>
           <!---->
-          <div class="row mb-2">
+          <div class="row mb-1">
             <div class="col">
+              <div class="input-group">
+                <div class="form-check form-switch" >
+                  <input class="form-check-input" type="checkbox" value="" id="frame">
+                  <label class="form-check-label" for="frame">Cadre</label>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" value="" id="square">
+                  <label class="form-check-label" for="frame">Carré</label>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" value="" id="tileBorder">
+                  <label class="form-check-label" for="tileBorder">Bordures</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
+          <div class="row mb-0">
+            <div class="col-4">
               <div class="input-group">
                 <div class="input-group-text">H</div>
-                <input type="number" id="height" class="form-control" placeholder="Hauteur (H)" value="6">
+                <input type="number" id="height" min="3" max="200" step="1" class="form-control" placeholder="Hauteur (H)" value="6">
               </div>
             </div>
             <div class="col">
+              <input type="range" class="form-range" min="3" max="100" step="1" value="6" id="height2">
+            </div>
+          </div>
+          <div class="row mb-0">
+            <div class="col-4">
               <div class="input-group">
                 <div class="input-group-text">L</div>
-                <input type="number" id="width" class="form-control" placeholder="Largeur (L)" value="6">
+                <input type="number" min="3" max="200" step="1"  id="width" class="form-control" placeholder="Largeur (L)" value="6">
               </div>
+            </div>
+            <div class="col">
+              <input type="range" class="form-range" min="3" max="100" step="1" value="6" id="width2">
             </div>
           </div>
           <!---->
-
-
-          <div class="row mb-2" style="margin-left: 0rem !important">
-            <div class="col">
+          <div class="row mb-0">
+            <div class="col-4">
               <div class="input-group">
                 <div class="input-group-text">A</div>
-                <input type="number" id="angle" class="form-control" placeholder="" value="30">
+                <input type="number" id="angle" min="0" max="400" step="1" class="form-control" placeholder="" value="30">
               </div>
-            </div>
-
-
-
-            <div class="col input-group">
-              <div class="form-check" >
-                <input class="form-check-input" type="checkbox" value="" id="frame">
-                <label class="form-check-label" for="frame">Cadre</label>
-              </div>
-            </div>
-            <div class="col input-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="tileBorder">
-                <label class="form-check-label" for="tileBorder">Bordures</label>
-              </div>
-            </div>
-
-          </div>
-
-
-          <!---->
-          <div class="row mb-4">
-            <div class="col">
-                <button id="exportBtn" type="button" class="btn btn-light w-100 mt-2">Exportation de l'image</button>
             </div>
             <div class="col">
-                <button type="submit" class="btn btn-dark w-100 mt-2">Génération de la mosaïque</button>
+              <input type="range" class="form-range" min="0" max="200" step="1" value="30" id="angle2">
             </div>
           </div>
           <!---->
         </form>
 
-        <div id="mosaicContainer" class="mt-4"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

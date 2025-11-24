@@ -2,13 +2,15 @@
   display: grid;
   margin-top: 20px;
   width: 100%;                  /* Occuper toute la largeur */
-  border: 4px solid #555;
+  border: 4px solid #444;
+  padding: 4px;
+  padding-right: 4px;
+  border-radius: 10px;
 }
 
-.tile {
-  /* border: 4px solid #333; */
-  /* border: 1px solid transparent;*/
-  /* border: none; */
+#frame, /*.tile,*/
+#square,
+#tileBorder {
   cursor: pointer;
 }
 
@@ -24,17 +26,13 @@
   border: none;
 }
 
-#angle {
-  /* text-align: center; */
-}
-
 .color-input {
   /* height: 60px;
   width: 60px;
   border-radius: 60px; */
 }
 
-h1,
+span,
 .color-input {
   cursor: pointer;
 }
@@ -44,8 +42,14 @@ h1,
 #width,
 #angle {
   height: 1.7rem !important;
+  text-align: center;
 }
 
 #exportBtn {
   border: 2px solid grey !important;
+}
+
+h6 {
+  position: relative;
+  top: -10px;
 }
