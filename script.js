@@ -1,7 +1,8 @@
 let manualMode = false;
 let selectedPiece = { w: 1, h: 1, class: 'c1' };
-let frameColor = "#444";
-let backColor = "#444";
+let frameColor = "#444444";
+let backColor = "#444444";
+let borderColor = "#444444";
 
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
@@ -40,7 +41,10 @@ function renderGrid(grid, H, L, colors) {
         html += `<div class="tile ${type}" style="background-color:${colors[type]};  aspect-ratio: 1;"></div>`;
     });
     html += '</div>';
+
+
     $('#mosaicContainer').html(html);
+
 
     $(".tile").click(function () {
         if (!manualMode) return;
@@ -74,13 +78,10 @@ function renderGrid(grid, H, L, colors) {
       }
 
       // Applique les bordures si nécessaires
-
-      tile.style.borderTop = borders.top ? borderPix + " solid " + frameColor : "none";
-      tile.style.borderRight = borders.right ?  borderPix + " solid " + frameColor : "none";
-      tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + frameColor : "none";
-      tile.style.borderLeft = borders.left ?  borderPix + " solid " + frameColor : "none";
-
-
+      tile.style.borderTop = borders.top ? borderPix + " solid " + $("#borderColor").val() : "none";
+      tile.style.borderRight = borders.right ?  borderPix + " solid " + $("#borderColor").val() : "none";
+      tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + $("#borderColor").val() : "none";
+      tile.style.borderLeft = borders.left ?  borderPix + " solid " + $("#borderColor").val() : "none";
 
       // Coins arrondis
       let radius = $("#angle").val() + "px"; // "10px"; // Ajustez selon l'effet désiré
@@ -90,15 +91,25 @@ function renderGrid(grid, H, L, colors) {
       tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
     });
 
+    // tiles visibility
+    if ( $("#tilec1")[0].checked )  $(".tile.c1").css("visibility", "visible");
+    else $(".tile.c1").css("visibility", "hidden");
+    if ( $("#tilec2")[0].checked )  $(".tile.c2").css("visibility", "visible");
+    else $(".tile.c2").css("visibility", "hidden");
+    if ( $("#tilec3")[0].checked )  $(".tile.c3").css("visibility", "visible");
+    else $(".tile.c3").css("visibility", "hidden");
+    if ( $("#tilec4")[0].checked )  $(".tile.c4").css("visibility", "visible");
+    else $(".tile.c4").css("visibility", "hidden");
 
+    // Applique le cadre si nécessaire
     let frame = $("#frame").get(0).checked;
-    if ( frame) $("#mosaic").css("border", "6px solid " + frameColor);
+    if ( frame) $("#mosaic").css("border", "6px solid " + $("#frameColor").val());
     else $("#mosaic").css("border", "6px solid white");
     let mosaAngle = Number($("#angle").val()) + "px";
     $("#mosaic").css("border-radius", mosaAngle);
 
     let back = $("#back").get(0).checked;
-    if ( back) $("#mosaic").css("background-color", backColor + "px");
+    if ( back) $("#mosaic").css("background-color", backColor);
     else $("#mosaic").css("background-color", "#fff");
 
 }
@@ -322,6 +333,11 @@ $(document).ready(function () {
     changeFrame(this.checked);
   });
 
+  $(document).on("input", "#borderColor", function(e) {
+    borderColor = this.value;
+    $(".tile").css("border-color", borderColor);
+  });
+
   $(document).on("input", "#frameColor", function(e) {
     frameColor = this.value;
     $("#mosaic").css("border-color", frameColor);
@@ -349,7 +365,11 @@ $(document).ready(function () {
 
 //////
   $(document).on("input", "#tileBorder", function(e) {
-    generateMosaicGrid();
+    if( $("#tileBorder").get(0).checked ) {
+      event.preventDefault();
+      generateMosaicGrid();
+    }
+    else $(".tile").css("border", 0);
   });
 
   $('#mosaicForm').submit(function (event) {

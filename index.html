@@ -20,7 +20,7 @@
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
                     <input class="form-check-input" type="checkbox" checked value="" id="tilec1">
-                    <label class="form-check-label" for="frame">1x1</label>
+                    <label class="form-check-label" for="tilec1">1x1</label>
                   </div>
                 </div>
                 <input type="color" id="color1" value="#d05860" class="form-control color-input">
@@ -31,7 +31,7 @@
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
                     <input class="form-check-input" type="checkbox" checked value="" id="tilec2">
-                    <label class="form-check-label" for="frame">2x2</label>
+                    <label class="form-check-label" for="tilec2">2x2</label>
                   </div>
                 </div>
                 <input type="color" id="color2" value="#dccbcc" class="form-control color-input">
@@ -42,7 +42,7 @@
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
                     <input class="form-check-input" type="checkbox" checked value="" id="tilec3">
-                    <label class="form-check-label" for="frame">2x1</label>
+                    <label class="form-check-label" for="tilec3">2x1</label>
                   </div>
                 </div>
                 <input type="color" id="color3" value="#646d82" class="form-control color-input">
@@ -53,7 +53,7 @@
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
                     <input class="form-check-input" type="checkbox" checked value="" id="tilec4">
-                    <label class="form-check-label" for="frame">1x2</label>
+                    <label class="form-check-label" for="tilec4">1x2</label>
                   </div>
                 </div>
                 <input type="color" id="color4" value="#afc1c0" class="form-control color-input">
@@ -102,7 +102,7 @@
         <!---->
         <div class="row mb-1">
           <div class="col-md-3 col-6">
-            <div class="input-group">
+            <div class="input-group" style="position: relative; left: 10px;">
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" checked value="" id="square">
                 <label class="form-check-label" for="square">L = H</label>
@@ -111,41 +111,44 @@
           </div>
           <div class="col-md-3 col-6">
             <div class="input-group">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="tileBorder">
-                <label class="form-check-label" for="tileBorder">Contours</label>
+              <div class="input-group-text">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" value="" id="tileBorder">
+                  <label class="form-check-label" for="tileBorder">Bords</label>
+                </div>
               </div>
+              <input type="color" id="borderColor" value="#444444" class="form-control color-input">
             </div>
           </div>
-          <div class="col-md-3 col-sm-6">
+          <div class="col-md-3 col-6">
             <div class="input-group">
               <div class="input-group-text">
                 <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="back">
-                <label class="form-check-label" for="frame">Fond&nbsp;&nbsp;</label>
+                  <input class="form-check-input" type="checkbox" value="" id="back">
+                  <label class="form-check-label" for="back">Fond&nbsp;&nbsp;</label>
+                </div>
               </div>
-            </div>
-              <input type="color" id="backColor" value="#444" class="form-control color-input">
+              <input type="color" id="backColor" value="#444444" class="form-control color-input">
             </div>
           </div>
-          <div class="col-md-3 col-sm-6">
+          <div class="col-md-3 col-6">
             <div class="input-group">
               <div class="input-group-text">
                 <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="frame">
-                <label class="form-check-label" for="frame">Cadre</label>
+                  <input class="form-check-input" type="checkbox" value="" id="frame">
+                  <label class="form-check-label" for="frame">Cadre</label>
+                </div>
               </div>
-            </div>
-              <input type="color" id="frameColor" value="#afc1c0" class="form-control color-input">
+            <input type="color" id="frameColor" value="#444444" class="form-control color-input">
             </div>
           </div>
-        </div>
+
         <!---->
-        <div class="row mb-1 mt-1">
-          <div class="col">
+        <div class="row mb-1 mt-2" style="position: relative; left: 12px;">
+          <div class="col-6">
               <button id="exportBtn" type="button" class="btn btn-sm btn-light w-100">Export</button>
           </div>
-          <div class="col">
+          <div class="col-6">
               <button id="submit" type="submit" class="btn btn-sm btn-dark w-100">Mosaïque</button>
           </div>
         </div>
