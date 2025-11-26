@@ -1,6 +1,7 @@
 let manualMode = false;
 let selectedPiece = { w: 1, h: 1, class: 'c1' };
 let frameColor = "#444";
+let backColor = "#444";
 
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
@@ -74,10 +75,10 @@ function renderGrid(grid, H, L, colors) {
 
       // Applique les bordures si nécessaires
 
-        tile.style.borderTop = borders.top ? borderPix + " solid " + frameColor : "none";
-        tile.style.borderRight = borders.right ?  borderPix + " solid " + frameColor : "none";
-        tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + frameColor : "none";
-        tile.style.borderLeft = borders.left ?  borderPix + " solid " + frameColor : "none";
+      tile.style.borderTop = borders.top ? borderPix + " solid " + frameColor : "none";
+      tile.style.borderRight = borders.right ?  borderPix + " solid " + frameColor : "none";
+      tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + frameColor : "none";
+      tile.style.borderLeft = borders.left ?  borderPix + " solid " + frameColor : "none";
 
 
 
@@ -93,6 +94,13 @@ function renderGrid(grid, H, L, colors) {
     let frame = $("#frame").get(0).checked;
     if ( frame) $("#mosaic").css("border", "6px solid " + frameColor);
     else $("#mosaic").css("border", "6px solid white");
+    let mosaAngle = Number($("#angle").val()) + "px";
+    $("#mosaic").css("border-radius", mosaAngle);
+
+    let back = $("#back").get(0).checked;
+    if ( back) $("#mosaic").css("background-color", backColor + "px");
+    else $("#mosaic").css("background-color", "#fff");
+
 }
 
 function setupManualSelector() {
@@ -181,6 +189,7 @@ function changeFrame(frame) {
     $("#mosaic").css("border", "6px solid " + color);
     $("#mosaic").css("padding-right","4px !important");
   }
+  $("#mosaic").css("border-radius", $("#angle").val() + "px");
 }
 
 function changeSquare(square) {
@@ -238,48 +247,37 @@ $(document).ready(function () {
     changeColor("c4", this.value);
   });
 
+
   ////// angle
   $(document).on("input", "#angle", function(e) {
     changeRadius(this.value);
     $("#angle2").val(this.value);
+    $("#mosaic").css("border-radius", $("#angle").val() + "px");
   });
   $(document).on("input", "#angle2", function (e) {
     changeRadius(this.value);
     $("#angle").val(this.value);
+    $("#mosaic").css("border-radius", $("#angle").val() + "px");
   });
 
   ////// H & L
   $(document).on("input", "#height", function(e) {
-    //changeRadius(this.value);
     $("#height2").val(this.value);
   });
 
   $(document).on("input", "#height2", function(e) {
-    //changeRadius(this.value);
     $("#height").val(this.value);
   });
 
   $(document).on("input", "#width", function(e) {
-    //changeRadius(this.value);
     $("#width2").val(this.value);
   });
 
   $(document).on("input", "#width2", function(e) {
-    //changeRadius(this.value);
     $("#width").val(this.value);
   });
-/////
 
-  $(document).on("change", "#frame", function(e) {
-    changeFrame(this.checked);
-  });
-
-  $(document).on("change", "#square", function(e) {
-    if ( $("#square")[0].checked && $("#width").val() != $("#height").val() )
-                  changeSquare(this.checked);
-  });
-
-  $(document).on("change", "#width, #width2", function(e) {
+  $(document).on("input", "#width, #width2", function(e) {
     if ( $("#square")[0].checked ) {
       $("#height").val($("#width").val());
       $("#height2").val($("#width").val());
@@ -287,16 +285,70 @@ $(document).ready(function () {
     $("#submit").trigger("click");
   });
 
-  $(document).on("change", "#height, #height2", function(e) {
+  $(document).on("input", "#height, #height2", function(e) {
     if ( $("#square")[0].checked ) {
       $("#width").val($("#height").val());
       $("#width2").val($("#height").val());
     }
     $("#submit").trigger("click");
   });
-/////
 
-  $(document).on("change", "#tileBorder", function(e) {
+/////
+  $(document).on("input", "#tilec1", function(e) {
+    if  ( $("#tilec1")[0].checked )
+            $(".c1").css("visibility", "visible");
+    else  $(".c1").css("visibility", "hidden");
+  });
+
+  $(document).on("input", "#tilec2", function(e) {
+    if  ( $("#tilec2")[0].checked )
+            $(".c2").css("visibility", "visible");
+    else  $(".c2").css("visibility", "hidden");
+  });
+
+  $(document).on("input", "#tilec3", function(e) {
+    if  ( $("#tilec3")[0].checked )
+            $(".c3").css("visibility", "visible");
+    else  $(".c3").css("visibility", "hidden");
+  });
+
+  $(document).on("input", "#tilec4", function(e) {
+    if  ( $("#tilec4")[0].checked )
+            $(".c4").css("visibility", "visible");
+    else  $(".c4").css("visibility", "hidden");
+  });
+
+  $(document).on("input", "#frame", function(e) {
+    changeFrame(this.checked);
+  });
+
+  $(document).on("input", "#frameColor", function(e) {
+    frameColor = this.value;
+    $("#mosaic").css("border-color", frameColor);
+  });
+
+  $(document).on("input", "#back", function(e) {
+    if  ( $("#back")[0].checked )
+            $("#mosaic").css("background-color", backColor);
+    else  $("#mosaic").css("background-color", "#ffffff");
+  });
+
+  $(document).on("input", "#backColor", function(e) {
+    backColor = this.value;
+    $("#mosaic").css("background-color", backColor);
+  });
+
+
+  $(document).on("input", "#square", function(e) {
+    if ( $("#square")[0].checked && $("#width").val() != $("#height").val() )
+                  changeSquare(this.checked);
+  });
+
+//////
+
+
+//////
+  $(document).on("input", "#tileBorder", function(e) {
     generateMosaicGrid();
   });
 
@@ -328,15 +380,15 @@ $(document).ready(function () {
   $("span").click(() => {
     // window.location = "http://localhost:8888/MosaMatic/";
     if ( window.location.href.lastIndexOf("8888") == -1 )
-        window.location = "https://www.siouxlog.fr/MosaMatic2/";
+        window.location = "https://www.siouxlog.fr/MosaMagicC/";
   });
 
   $("#clearBtn").click(() => {
     $("#mosaicContainer").html("");
   });
 
-  $("#square").trigger("click");
   $("#submit").trigger("click");
   $("#mosaic").css({border: "4px solid #444 !important"});
+  // $("#square").trigger("click");
 
 });

@@ -9,6 +9,7 @@
 }
 
 #frame, /*.tile,*/
+#back,
 #square,
 #tileBorder {
   cursor: pointer;
