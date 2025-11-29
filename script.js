@@ -104,12 +104,12 @@ function renderGrid(grid, H, L, colors) {
 
     // Applique le cadre si nécessaire
     let frame = $("#frame").get(0).checked;
-    if ( frame) $("#mosaic").css("outline", "6px solid " + $("#frameColor").val());
-    else $("#mosaic").css("outline", "6px solid white");
+    if ( frame) $("#mosaic").css("border", "6px solid " + $("#frameColor").val());
+    else $("#mosaic").css("border", "6px solid white");
     let mosaAngle = Number($("#frameAngle").val()) + "px";
     $("#mosaic").css("border-radius", mosaAngle);
     let frameSize = Number($("#frameSize").val()) + "px";
-    $("#mosaic").css("outline", frameSize);
+    $("#mosaic").css("border", frameSize);
 
 
     let back = $("#back").get(0).checked;
@@ -209,11 +209,11 @@ function changeFrame(frame) {
   $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
   */
 
+/*
   if ( /android|iphone|kindle|ipad/i.test(navigator.userAgent) )
        padding = "16px !important";
   else padding = "4px !important";
-
-
+*/
 
 
   if ( !frame ) {
@@ -221,8 +221,8 @@ function changeFrame(frame) {
   }
   else {
     $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
-    $("#mosaic").css("outline", $("#frameSize").val() + "px solid " + color);
-    $("#mosaic").css("padding-right", padding);
+    $("#mosaic").css("border", $("#frameSize").val() + "px solid " + color);
+    // $("#mosaic").css("padding-right", padding);
   }
 }
 
@@ -309,7 +309,7 @@ $(document).ready(function () {
     $("#frameSize2").val(this.value);
   });
   $(document).on("input", "#frameSize2", function (e) {
-    $("#mosaic").css("outline-width", $("#frameSize").val() + "px");
+    $("#mosaic").css("border-width", $("#frameSize").val() + "px");
     $("#frameSize").val(this.value);
   });
 
