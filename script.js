@@ -3,6 +3,7 @@ let selectedPiece = { w: 1, h: 1, class: 'c1' };
 let frameColor = "#444444";
 let backColor = "#444444";
 let borderColor = "#444444";
+let frameSize = "6px";
 
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
@@ -103,10 +104,13 @@ function renderGrid(grid, H, L, colors) {
 
     // Applique le cadre si nécessaire
     let frame = $("#frame").get(0).checked;
-    if ( frame) $("#mosaic").css("border", "6px solid " + $("#frameColor").val());
-    else $("#mosaic").css("border", "6px solid white");
-    let mosaAngle = Number($("#angle").val()) + "px";
+    if ( frame) $("#mosaic").css("outline", "6px solid " + $("#frameColor").val());
+    else $("#mosaic").css("outline", "6px solid white");
+    let mosaAngle = Number($("#frameAngle").val()) + "px";
     $("#mosaic").css("border-radius", mosaAngle);
+    let frameSize = Number($("#frameSize").val()) + "px";
+    $("#mosaic").css("outline", frameSize);
+
 
     let back = $("#back").get(0).checked;
     if ( back) $("#mosaic").css("background-color", backColor);
@@ -188,8 +192,10 @@ function changeColor(color, val) {
 function changeFrame(frame) {
 
   let color;
-  if ( frame ) color = frameColor;
+  if ( frame ) color = $("#frameColor").val();
   else color = "white";
+  let padding;
+  /*
 
   if ( /android|iphone|kindle|ipad/i.test(navigator.userAgent) ) {
     $("#mosaic").css("border", "6px solid " + color);
@@ -200,8 +206,26 @@ function changeFrame(frame) {
     $("#mosaic").css("border", "6px solid " + color);
     $("#mosaic").css("padding-right","4px !important");
   }
-  $("#mosaic").css("border-radius", $("#angle").val() + "px");
+  $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
+  */
+
+  if ( /android|iphone|kindle|ipad/i.test(navigator.userAgent) )
+       padding = "16px !important";
+  else padding = "4px !important";
+
+
+
+
+  if ( !frame ) {
+    $("#mosaic").css("border", 0);
+  }
+  else {
+    $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
+    $("#mosaic").css("outline", $("#frameSize").val() + "px solid " + color);
+    $("#mosaic").css("padding-right", padding);
+  }
 }
+
 
 function changeSquare(square) {
   if (square) {
@@ -263,12 +287,30 @@ $(document).ready(function () {
   $(document).on("input", "#angle", function(e) {
     changeRadius(this.value);
     $("#angle2").val(this.value);
-    $("#mosaic").css("border-radius", $("#angle").val() + "px");
   });
   $(document).on("input", "#angle2", function (e) {
     changeRadius(this.value);
     $("#angle").val(this.value);
-    $("#mosaic").css("border-radius", $("#angle").val() + "px");
+  });
+
+  ////// frameAngle
+  $(document).on("input", "#frameAngle", function(e) {
+    $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
+    $("#frameAngle2").val(this.value);
+  });
+  $(document).on("input", "#frameAngle2", function (e) {
+    $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
+    $("#frameAngle").val(this.value);
+  });
+
+  ////// frameSize
+  $(document).on("input", "#frameSize", function(e) {
+    $("#mosaic").css("border-width", $("#frameSize").val() + "px");
+    $("#frameSize2").val(this.value);
+  });
+  $(document).on("input", "#frameSize2", function (e) {
+    $("#mosaic").css("outline-width", $("#frameSize").val() + "px");
+    $("#frameSize").val(this.value);
   });
 
   ////// H & L
