@@ -375,6 +375,12 @@ $(document).ready(function () {
     changeFrame(this.checked);
   });
 
+  $(document).on("input", "#rogner", function(e) {
+    if ( this.checked )
+        $("#mosaic").css("overflow", "clip");
+    else $("#mosaic").css("overflow", "visible");
+  });
+
   $(document).on("input", "#borderColor", function(e) {
     borderColor = this.value;
     $(".tile").css("border-color", borderColor);
