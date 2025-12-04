@@ -9,17 +9,19 @@
   overflow: visible;
 }
 
-#mosaic .tile {
-  aspect-ratio: 1;
-  width: 100%;
-  height: auto;
-}
-
-#frame, /*.tile,*/
+.form-check-input,
+#frame,
+.tile,
 #back,
 #square,
 #tileBorder {
   cursor: pointer;
+}
+
+#mosaic .tile {
+  aspect-ratio: 1;
+  width: 100%;
+  height: auto;
 }
 
 #manualPieceSelector {
@@ -50,6 +52,7 @@ span,
 #width,
 #angle,
 #frameAngle,
+#paddingSize,
 #frameSize {
   height: 1.7rem !important;
   text-align: center;

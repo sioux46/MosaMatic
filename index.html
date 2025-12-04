@@ -63,38 +63,38 @@
         <!---->
         <div class="row mb-1">
         </div>
-        <!--                   Angle  Large  Haut-->
+        <!--                   Angle  Large/Haut-->
         <div class="row mb-0">
-          <div class="col-5 col-md-3 col-sm-4">
+          <div class="col-5 col-md-3 col-sm-4 mb-2">
             <div class="input-group">
-              <div class="input-group-text">Angle</div>
-              <input type="number" id="angle" min="0" max="400" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
+              <div class="input-group-text">Angles</div>
+              <input type="number" id="angle" min="1" max="400" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="200" step="1" value="30" id="angle2">
+            <input type="range" class="form-range" min="1" max="200" step="1" value="30" id="angle2">
           </div>
         </div>
         <div class="row mb-0">
           <div class="col-5 col-md-3 col-sm-4">
             <div class="input-group">
               <div class="input-group-text">Large</div>
-              <input type="number" min="3" max="200" step="1"  id="width" class="form-control" placeholder="Largeur (L)" value="6">
+              <input type="number" min="2" max="200" step="1"  id="width" class="form-control" placeholder="Largeur (L)" value="5">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="3" max="100" step="1" value="6" id="width2">
+            <input type="range" class="form-range" min="2" max="100" step="1" value="6" id="width2">
           </div>
         </div>
         <div class="row mb-0">
           <div class="col-5 col-md-3 col-sm-4">
             <div class="input-group">
               <div class="input-group-text">Haut&nbsp;&nbsp;</div>
-              <input type="number" id="height" min="3" max="200" step="1" class="form-control" placeholder="Hauteur (H)" value="6">
+              <input type="number" id="height" min="2" max="200" step="1" class="form-control" placeholder="Hauteur (H)" value="5">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="3" max="100" step="1" value="6" id="height2">
+            <input type="range" class="form-range" min="2" max="100" step="1" value="6" id="height2">
           </div>
         </div>
         <!--                 L = H      Bords  -->
@@ -119,13 +119,13 @@
             </div>
           </div>
         </div>
-        <div class="row mb-1">
+        <div class="row">
           <div class="col-md-3 col-6">
-            <div class="input-group mt-3">
+            <div class="input-group mt-4 mb-1">
               <div class="input-group-text">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" value="" id="frame">
-                  <label class="form-check-label" for="frame">Cadre</label>
+                <div>
+                  <!--<input class="form-check-input" type="checkbox" value="" id="frame">-->
+                  <span class="form-check-label text-center">Cadre</span>
                 </div>
               </div>
             <input type="color" id="frameColor" value="#afc1c0" class="form-control color-input">
@@ -142,42 +142,92 @@
               <input type="color" id="backColor" value="#444444" class="form-control color-input">
             </div>
           </div>
-          <div class="row mb-1">
-            <div class="col-md-3 col-6">
-              <div class="input-group" style="position: relative; left: 13px;">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" value="" id="rogner">
-                  <label class="form-check-label" for="square">Rogner</label>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
         <!--          Angle Taille-->
         <div class="row">
           <div class="col-5 col-md-3 col-sm-4">
             <div class="input-group">
-              <div class="input-group-text">Angle</div>
-              <input type="number" min="0" max="800" step="1" style="padding-left:3px;"  id="frameAngle" class="form-control" placeholder="Angle du cadre" value="6">
+              <div class="input-group-text">Cadre</div>
+              <input type="number" min="0" max="400" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="25" id="frameSize">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="400" step="1" value="6" id="frameAngle2">
+            <input type="range" class="form-range" min="0" max="200" step="1" value="6" id="frameSize2">
           </div>
         </div>
         <div class="row">
-          <div class="col-5 col-md-3 col-sm-4">
+          <div class="col-5 col-md-3 col-sm-4 mb-2">
             <div class="input-group">
-              <div class="input-group-text">Taille&nbsp;</div>
-              <input type="number" min="0" max="200" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="6" id="frameSize">
+              <div class="input-group-text">Marge</div>
+              <input type="number" min="0" max="400" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="9" id="paddingSize">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="100" step="1" value="6" id="frameSize2">
+            <input type="range" class="form-range" min="0" max="200" step="1" value="6" id="paddingSize2">
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-5 col-md-3 col-sm-4">
+            <div class="input-group">
+              <div class="input-group-text">Angle&nbsp;</div>
+              <input type="number" min="0" max="800" step="1" style="padding-left:3px;"  id="frameAngle" class="form-control" placeholder="Angle du cadre" value="400">
+            </div>
+          </div>
+          <div class="col">
+            <input type="range" class="form-range" min="0" max="400" step="1" value="30" id="frameAngle2">
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-2 col-5">
+            <div class="input-group" style="position: relative; left: 20px;">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="" id="rogner">
+                <label class="form-check-label" for="square">Rognage</label>
+              </div>
+            </div>
           </div>
         </div>
         <!---->
+        <div class="row mb-1">
+          <div class="col-md-2 col-5">
+            <div class="input-group" style="position: relative; left: 20px;">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="" id="anim">
+                <label class="form-check-label" for="square">Animation</label>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <input type="range" class="form-range" min="50" max="5000" step="1" value="1500" id="anim2">
+          </div>
+        </div>
 
+
+
+
+<!--
+        <div class="row text-center id="anim">
+          <div class="col-md-2 col">
+            <div><strong>&nbsp;1&nbsp;</strong></div>
+          </div>
+          <div class="col-md-2 col">
+            <div><strong>&nbsp;1&nbsp;</strong></div>
+          </div>
+          <div class="col-md-2 col">
+            <div><strong>&nbsp;1&nbsp;</strong></div>
+          </div>
+          <div class="col-md-2 col">
+            <div><strong>&nbsp;1&nbsp;</strong></div>
+          </div>
+          <div class="col-md-2 col">
+            <div><strong>&nbsp;1&nbsp;</strong></div>
+          </div>
+          <div class="col-md-2 col">
+            <div><strong>&nbsp;1&nbsp;</strong></div>
+          </div>
+        </div>
+-->
 
         <div class="row mb-2 mt-2">
           <div class="col-6">
