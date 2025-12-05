@@ -536,8 +536,7 @@ $(document).ready(function () {
   $("#mosaic").css({border: "4px solid #444 !important"});
   // $("#square").trigger("click");
 
-  $("#mosaicContainer").on("click", function() {
-    if ( $("#anim")[0].checked )  clearInterval(timer);
+  $("#mosaicContainer").on( "click", function() {
     $("#anim").trigger("click");
   });
 

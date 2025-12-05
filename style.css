@@ -7,11 +7,15 @@
   padding: 4px;
   border-radius: 10px;
   overflow: visible;
+  pointer-events: none;
+}
+
+.tile {
+  pointer-events: none;
 }
 
 .form-check-input,
 #frame,
-.tile,
 #back,
 #square,
 #tileBorder {
