@@ -14,7 +14,10 @@
   pointer-events: none;
 }
 
+span,
+.color-input,
 .form-check-input,
+#mosaicContainer,
 #frame,
 #back,
 #square,
@@ -38,17 +41,6 @@
   width: 60px;
   height: 30px;
   border: none;
-}
-
-.color-input {
-  /* height: 60px;
-  width: 60px;
-  border-radius: 60px; */
-}
-
-span,
-.color-input {
-  cursor: pointer;
 }
 
 .input-group-text,
