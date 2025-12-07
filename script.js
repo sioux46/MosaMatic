@@ -4,10 +4,16 @@ let frameColor = "#444444";
 let backColor = "#444444";
 let borderColor = "#444444";
 let frameSize = "6px";
+let borderSize = "4px";
 let paddingSize = "4px";
 let timer = null;
 let min = 50;
 let max = 5000;
+let tapTimer = null;
+let tapDelay = 350; // délai max entre deux taps
+let formVisible = true;
+let colGauche = 'col-lg-6 col-md-7 col-sm-8'; // form
+let colDroite = 'col-lg-6 col-md-5 col-sm-4'; // mosaic
 
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
@@ -73,6 +79,12 @@ function renderGrid(grid, H, L, colors) {
       borders.bottom = row === H - 1 || grid[row + 1][col] !== cls;
       borders.left = col === 0 || grid[row][col - 1] !== cls;
 
+      // Remember border width
+      $(tile).attr("data-border-top", borders.top);
+      $(tile).attr("data-border-right", borders.right);
+      $(tile).attr("data-border-bottom", borders.bottom);
+      $(tile).attr("data-border-left", borders.left);
+/*
       let borderPix = "0px;";
       if ( $("#tileBorder").get(0).checked ) {
         if ( H < 20 || L < 20 ) borderPix = "4px";
@@ -81,6 +93,8 @@ function renderGrid(grid, H, L, colors) {
         else if ( H < 120 || L < 120 ) borderPix = "1px";
         else borderPix = "0px";
       }
+*/
+      borderPix = $("#borderSize").val() + "px";
 
       // Applique les bordures si nécessaires
       tile.style.borderTop = borders.top ? borderPix + " solid " + $("#borderColor").val() : "none";
@@ -214,26 +228,6 @@ function changeFrame(frame) {
   if ( frame ) color = $("#frameColor").val();
   else color = "white";
   let padding;
-  /*
-
-  if ( /android|iphone|kindle|ipad/i.test(navigator.userAgent) ) {
-    $("#mosaic").css("border", "6px solid " + color);
-    $("#mosaic").css("padding-right", "16px !important");
-
-  }
-  else {
-    $("#mosaic").css("border", "6px solid " + color);
-    $("#mosaic").css("padding-right","4px !important");
-  }
-  $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
-  */
-
-/*
-  if ( /android|iphone|kindle|ipad/i.test(navigator.userAgent) )
-       padding = "16px !important";
-  else padding = "4px !important";
-*/
-
 
   if ( !frame ) {
     $("#mosaic").css("border", 0);
@@ -283,8 +277,6 @@ function hexToRgb(hex) {
 // console.log(hexToRgb("#fff"));    // → rgb(255, 255, 255)
 
 ////// Animation
-
-
 function animagic() {
   let value = parseFloat($("#anim2").val());       // valeur brute du slider
   let t = (value - min) / (max - min);         // normalisation 0 → 1
@@ -295,8 +287,66 @@ function animagic() {
   }, time);
 }
 
+////// fullScreen
+function handleDouble() {
+    console.log("DOUBLE CLIC / DOUBLE TAP !");
+    if ( formVisible ) {
+       // Masquer colonne gauche avec slide
+       $("#col-gauche").slideUp(400, function () {
+           // Une fois le slide terminé, élargir la colonne droite
+           //$("#col-droite").removeClass("col-lg-5").removeClass("col-sm-4").addClass("col-12");
+           $("#col-droite")[0].classList.value = "col-12";
+       });
+   } else {
+       // Rétrécir la colonne droite avant de réafficher la gauche
+       //$("#col-droite").removeClass("col-12").addClass("col-lg-5").addClass("col-sm-4");
+       $("#col-droite")[0].classList.value = colDroite;
+
+       // Réafficher la colonne gauche
+       $("#col-gauche").slideDown(400);
+   }
+   formVisible = !formVisible;
+}
+
+////// setBorderSize
+function setBorderSize() {
+  let size = String(Number($("#borderSize").val()) /20);
+  $(".tile").each(function (index) {
+    if ( $(this).attr("data-border-top") == "true" )
+            $(this).css("border-top"  , size + "rem solid " + $("#borderColor").val());
+    if ( $(this).attr("data-border-right") == "true" )
+            $(this).css("border-right", size + "rem solid " + $("#borderColor").val());
+    if ( $(this).attr("data-border-bottom") == "true" )
+            $(this).css("border-bottom"  , size + "rem solid " + $("#borderColor").val());
+    if ( $(this).attr("data-border-left") == "true" )
+          $(this).css("border-left"  , size + "rem solid " + $("#borderColor").val());
+  });
+}
+
+
 /////////////////////////////////////////////////////////////////// R E A D Y
 $(document).ready(function () {
+
+  // gestion double click
+  $("#mosaicContainer").on("click", function (e) {
+    // Gestion du double-clic desktop (natif)
+    // → e.detail === 2 signifie "2 clics"
+    if (e.detail === 2) {
+        handleDouble();
+        return;
+    }
+
+    // Gestion du double-tap mobile
+    if (tapTimer == null) {
+        tapTimer = setTimeout(() => {
+            tapTimer = null;
+        }, tapDelay);
+    } else {
+        clearTimeout(tapTimer);
+        tapTimer = null;
+        handleDouble();
+    }
+  });
 
 ////// Animation
   $(document).on("input", "#anim", function(e) {
@@ -365,6 +415,16 @@ $(document).ready(function () {
     $("#frameSize2").val(this.value);
     if ( $("#frameSize").val() == "0" )
           $("#mosaic").css("border-width", 0);
+  });
+
+  ////// borderSize
+  $(document).on("input", "#borderSize", function(e) {
+    $("#borderSize2").val(this.value);
+    setBorderSize();
+  });
+  $(document).on("input", "#borderSize2", function (e) {
+    $("#borderSize").val(this.value);
+    setBorderSize();
   });
 
   ////// paddingSize
@@ -496,10 +556,7 @@ $(document).ready(function () {
   });
 
   $(document).on("input", "#tileBorder", function(e) {
-    if( $("#tileBorder").get(0).checked ) {
-      event.preventDefault();
-      generateMosaicGrid();
-    }
+    if( $("#tileBorder").get(0).checked ) setBorderSize();
     else $(".tile").css("border", 0);
   });
 
@@ -540,6 +597,9 @@ $(document).ready(function () {
     $("#anim").trigger("click");
   });
 
+  $("#col-droite")[0].classList.value = colDroite;
+  $("#col-gauche")[0].classList.value = colGauche;
+
   // start anim
-  $("#anim").trigger("click");
+  // $("#anim").trigger("click");
 });

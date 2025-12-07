@@ -44,6 +44,7 @@ span,
 }
 
 .input-group-text,
+#borderSize,
 #height,
 #width,
 #angle,
@@ -65,4 +66,8 @@ h6 {
 
 #submit {
   border: 2px solid black !important;
+}
+
+.transition-width {
+  transition: width 0.3s ease;
 }
