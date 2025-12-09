@@ -14,6 +14,11 @@ let tapDelay = 350; // délai max entre deux taps
 let formVisible = true;
 let colGauche = 'col-lg-6 col-md-7 col-sm-8'; // form
 let colDroite = 'col-lg-6 col-md-5 col-sm-4'; // mosaic
+let mosaPixUnit = 0.002;
+let $frameSize = $("#frameSize");
+let $frameSize2 = $("#frameSize2");
+//let $mosaic = $("#mosaic");
+
 
 function generateMosaicGrid() {
     let H = parseInt($('#height').val());
@@ -94,7 +99,7 @@ function renderGrid(grid, H, L, colors) {
         else borderPix = "0px";
       }
 */
-      borderPix = $("#borderSize").val() + "px";
+      borderPix = mosaPix($("#borderSize").val()) + "px";
 
       // Applique les bordures si nécessaires
       tile.style.borderTop = borders.top ? borderPix + " solid " + $("#borderColor").val() : "none";
@@ -126,11 +131,11 @@ function renderGrid(grid, H, L, colors) {
     $("#mosaic").css("border", bord + " solid " + $("#frameColor").val());
     // else $("#mosaic").css("border", "6px solid white");
 
-    let mosaAngle = Number($("#frameAngle").val()) + "px";
+    let mosaAngle = mosaPix($("#frameAngle").val()) + "px";
     $("#mosaic").css("border-radius", mosaAngle);
-    let frameSize = Number($("#frameSize").val()) + "px";
+    let frameSize = mosaPix($("#frameSize").val()) + "px";
     $("#mosaic").css("border-width", frameSize);
-    let paddingSize = Number($("#paddingSize").val()) + "px";
+    let paddingSize = mosaPix($("#paddingSize").val()) + "px";
     $("#mosaic").css("padding", paddingSize);
 
     let back = $("#back").get(0).checked;
@@ -199,7 +204,7 @@ function placePiece(grid, y, x, dh, dw, cls) {
 }
 
 function changeRadius(val) {
-  let v = val;
+  let v = mosaPix(val);
   // if ( v <= 0 ) v = 1;  ? inutile
   v = v + "px";
   let tiles = $(".tile");
@@ -222,7 +227,7 @@ function changeColor(color, val) {
   }
 }
 
-function changeFrame(frame) {
+/*function changeFrame(frame) {  // not used
 
   let color;
   if ( frame ) color = $("#frameColor").val();
@@ -233,11 +238,11 @@ function changeFrame(frame) {
     $("#mosaic").css("border", 0);
   }
   else {
-    $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
-    $("#mosaic").css("border", $("#frameSize").val() + "px solid " + color);
+    $("#mosaic").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
+    $("#mosaic").css("border", mosaPix($("#frameSize").val()) + "px solid " + color);
   }
 }
-
+*/
 
 function changeSquare(square) {
   if (square) {
@@ -310,27 +315,97 @@ function handleDouble() {
 
 ////// setBorderSize
 function setBorderSize() {
-  let size = String(Number($("#borderSize").val()) /20);
+  //return;
+  /*
+  let size = $("#borderSize").val();
   $(".tile").each(function (index) {
     if ( $(this).attr("data-border-top") == "true" )
-            $(this).css("border-top"  , size + "rem solid " + $("#borderColor").val());
+            $(this).css("border-top"  , mosaPix(size) + "px solid " + $("#borderColor").val());
     if ( $(this).attr("data-border-right") == "true" )
-            $(this).css("border-right", size + "rem solid " + $("#borderColor").val());
+            $(this).css("border-right", mosaPix(size) + "px solid " + $("#borderColor").val());
     if ( $(this).attr("data-border-bottom") == "true" )
-            $(this).css("border-bottom"  , size + "rem solid " + $("#borderColor").val());
+            $(this).css("border-bottom"  , mosaPix(size) + "px solid " + $("#borderColor").val());
     if ( $(this).attr("data-border-left") == "true" )
-          $(this).css("border-left"  , size + "rem solid " + $("#borderColor").val());
+          $(this).css("border-left"  , mosaPix(size) + "px solid " + $("#borderColor").val());
   });
+  */
+
+  /*
+  let size = mosaPix($("#borderSize").val()) + "px";
+let color = $("#borderColor").val();
+let value = size + " solid " + color;
+
+$(".tile").each(function () {
+    const $t = $(this); // cache jQuery object
+    let css = {};       // on prépare toutes les modifs avant un seul .css()
+
+    if ($t.data("border-top"))    css["border-top"]    = value;
+    if ($t.data("border-right"))  css["border-right"]  = value;
+    if ($t.data("border-bottom")) css["border-bottom"] = value;
+    if ($t.data("border-left"))   css["border-left"]   = value;
+
+    $t.css(css); // une seule mise à jour DOM
+});
+*/
+
+/*
+//if ( $(document.querySelector(".tile")).width() - $(document.querySelector(".tile")).css("border-top")
+
+const size = mosaPix(document.getElementById("borderSize").value) + "px";
+const color = document.getElementById("borderColor").value;
+const value = size + " solid " + color;
+
+document.querySelectorAll(".tile").forEach(t => {
+    if (t.dataset.borderTop === "true")    t.style.borderTop    = value;
+    if (t.dataset.borderRight === "true")  t.style.borderRight  = value;
+    if (t.dataset.borderBottom === "true") t.style.borderBottom = value;
+    if (t.dataset.borderLeft === "true")   t.style.borderLeft   = value;
+});
+*/
+
+const borderPx = mosaPix(document.getElementById("borderSize").value);
+const size = borderPx + "px";
+
+// Vérifier si la bordure masque le contenu → alors on ne fait rien
+const firstTile = document.querySelector(".tile");
+if (!firstTile) return;
+
+const miniMarge = mosaPix(1);
+const rect = firstTile.getBoundingClientRect();
+if (borderPx * 2 + miniMarge >= rect.width || borderPx * 2 + miniMarge >= rect.height) {
+    // La bordure serait plus grande que la tuile → on annule
+    return;
+}
+
+// Appliquer uniquement la taille des bordures
+document.querySelectorAll(".tile").forEach(t => {
+    if (t.dataset.borderTop === "true")    t.style.borderTopWidth    = size;
+    if (t.dataset.borderRight === "true")  t.style.borderRightWidth  = size;
+    if (t.dataset.borderBottom === "true") t.style.borderBottomWidth = size;
+    if (t.dataset.borderLeft === "true")   t.style.borderLeftWidth   = size;
+});
+
+
+}
+
+////// MMM pix size unit
+function mosaPix(val) {
+  //return val;
+  if ( $("#mosaic").height() > $("#mosaic").width() ) return val * mosaPixUnit * $("#mosaic").width();
+  else return val * mosaPixUnit * $("#mosaic").height();
 }
 
 
-/////////////////////////////////////////////////////////////////// R E A D Y
+///////////////////////////////////////////////////////////////////                 //////
+///////////////////////////////////////////////////////////////////  R  E  A  D  Y  //////
+///////////////////////////////////////////////////////////////////                 //////
 $(document).ready(function () {
 
   // gestion double click
   $("#mosaicContainer").on("click", function (e) {
     // Gestion du double-clic desktop (natif)
     // → e.detail === 2 signifie "2 clics"
+    event.preventDefault();
     if (e.detail === 2) {
         handleDouble();
         return;
@@ -394,11 +469,11 @@ $(document).ready(function () {
 
   ////// frameAngle
   $(document).on("input", "#frameAngle", function(e) {
-    $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
+    $("#mosaic").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
     $("#frameAngle2").val(this.value);
   });
   $(document).on("input", "#frameAngle2", function (e) {
-    $("#mosaic").css("border-radius", $("#frameAngle").val() + "px");
+    $("#mosaic").css("border-radius", mosaPix($("#frameAngle2").val()) + "px");
     $("#frameAngle").val(this.value);
     if ( $("#frameAngle").val() == "0" )
           $("#mosaic").css("border-radius", 0);
@@ -406,14 +481,14 @@ $(document).ready(function () {
 
   ////// frameSize
   $(document).on("input", "#frameSize", function(e) {
-    $("#mosaic").css("border-width", $("#frameSize").val() + "px");
-    $("#frameSize2").val(this.value);
+    $("#mosaic").css("border-width", mosaPix($frameSize.val()) + "px");
+    $frameSize2.val(this.value);
   });
   $(document).on("input", "#frameSize2", function (e) {
-    $("#mosaic").css("border-width", $("#frameSize").val() + "px");
-    $("#frameSize").val(this.value);
-    $("#frameSize2").val(this.value);
-    if ( $("#frameSize").val() == "0" )
+    $("#mosaic").css("border-width", mosaPix($frameSize2.val()) + "px");
+    $frameSize.val(this.value);
+    //$("#frameSize2").val(this.value);
+    if ( $frameSize.val() == "0" )
           $("#mosaic").css("border-width", 0);
   });
 
@@ -429,14 +504,14 @@ $(document).ready(function () {
 
   ////// paddingSize
   $(document).on("input", "#paddingSize", function(e) {
-    $("#mosaic").css("padding", $("#paddingSize").val() + "px");
+    $("#mosaic").css("padding", mosaPix($("#paddingSize").val()) + "px");
     $("#paddingSize2").val(this.value);
-    $("#paddingSize").val(this.value);
+    //$("#paddingSize").val(this.value);
 
   });
   $(document).on("input", "#paddingSize2", function (e) {
-    $("#mosaic").css("padding", $("#paddingSize").val() + "px");
-    $("#paddingSize2").val(this.value);
+    $("#mosaic").css("padding", mosaPix($("#paddingSize2").val()) + "px");
+    //$("#paddingSize2").val(this.value);
     $("#paddingSize").val(this.value);
     if ( $("#paddingSize").val() == "0" )
           $("#mosaic").css("padding", 0);
@@ -464,6 +539,8 @@ $(document).ready(function () {
       $("#height").val($("#width").val());
       $("#height2").val($("#width").val());
     }
+    $("#borderSize").val(0);
+    $("#borderSize2").val(0);
     $("#submit").trigger("click");
   });
 
@@ -472,6 +549,8 @@ $(document).ready(function () {
       $("#width").val($("#height").val());
       $("#width2").val($("#height").val());
     }
+    $("#borderSize").val(0);
+    $("#borderSize2").val(0);
     $("#submit").trigger("click");
   });
 
@@ -599,6 +678,19 @@ $(document).ready(function () {
 
   $("#col-droite")[0].classList.value = colDroite;
   $("#col-gauche")[0].classList.value = colGauche;
+
+  // Changement de taille d'un div
+  const observer = new ResizeObserver(() => {
+    // console.log("Le div a changé de taille !");
+    setBorderSize();
+    changeRadius($("#angle").val());
+    let mosaic = $("#mosaic");
+    mosaic.css("border-width", mosaPix($frameSize.val()) + "px");
+    mosaic.css("border-radius", mosaPix($("#frameAngle").val()) + "px");
+    mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
+  });
+  observer.observe($("#mosaicContainer")[0]);
+
 
   // start anim
   // $("#anim").trigger("click");
