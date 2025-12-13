@@ -12,7 +12,7 @@
       <h1 class="text-center" style="margin-bottom:0;"><span>MosaMagic</span></h1>
       <h6 class="text-center">Moderne</h6>
 <div class="row"> <!-- formulaire -->
-<div class="col-lg-8 col-sm-7" id="col-gauche">
+<div id="col-gauche" class="col-lg-8 col-sm-7">
       <form id="mosaicForm" style="position:relative; top: -5px">
         <!---->
         <div class="row mb-1">
@@ -24,40 +24,40 @@
                     <label class="form-check-label" for="tilec1">1x1</label>
                   </div>
                 </div>
-                <input type="color" id="color1" value="#d05860" class="form-control color-input">
+                <input id="color1" type="color" value="#d05860" class="form-control color-input">
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
-                    <input class="form-check-input" type="checkbox" checked value="" id="tilec2">
+                    <input id="tilec2" class="form-check-input" type="checkbox" checked value="" >
                     <label class="form-check-label" for="tilec2">2x2</label>
                   </div>
                 </div>
-                <input type="color" id="color2" value="#dccbcc" class="form-control color-input">
+                <input id="color2" type="color" value="#dccbcc" class="form-control color-input">
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
-                    <input class="form-check-input" type="checkbox" checked value="" id="tilec3">
+                    <input id="tilec3" class="form-check-input" type="checkbox" checked value="">
                     <label class="form-check-label" for="tilec3">2x1</label>
                   </div>
                 </div>
-                <input type="color" id="color3" value="#646d82" class="form-control color-input">
+                <input id="color3" type="color" value="#646d82" class="form-control color-input">
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
-                    <input class="form-check-input" type="checkbox" checked value="" id="tilec4">
+                    <input id="tilec4" class="form-check-input" type="checkbox" checked value=""">
                     <label class="form-check-label" for="tilec4">1x2</label>
                   </div>
                 </div>
-                <input type="color" id="color4" value="#afc1c0" class="form-control color-input">
+                <input id="color4" type="color" value="#afc1c0" class="form-control color-input">
               </div>
             </div>
         </div>
@@ -69,11 +69,11 @@
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Angle</div>
-              <input type="number" id="angle" min="1" max="400" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
+              <input id="angle" type="number" min="1" max="200" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="1" max="200" step="1" value="30" id="angle2">
+            <input id="angle2" type="range" class="form-range" min="1" max="100" step="1" value="30">
           </div>
         </div>
         <!---->
@@ -81,11 +81,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Large</div>
-              <input type="number" min="2" max="200" step="1"  id="width" class="form-control" placeholder="Largeur (L)" value="5">
+              <input id="width" type="number" min="2" max="30" step="1" class="form-control" placeholder="Largeur (L)" value="5">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="2" max="100" step="1" value="6" id="width2">
+            <input id="width2" type="range" class="form-range" min="2" max="30" step="1" value="6">
           </div>
         </div>
         <!---->
@@ -93,11 +93,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Haut&nbsp;&nbsp;</div>
-              <input type="number" id="height" min="2" max="200" step="1" class="form-control" placeholder="Hauteur (H)" value="5">
+              <input id="height" type="number" min="2" max="30" step="1" class="form-control" placeholder="Hauteur (H)" value="5">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="2" max="100" step="1" value="6" id="height2">
+            <input id="height2" type="range" class="form-range" min="2" max="30" step="1" value="6">
           </div>
         </div>
         <!---->
@@ -105,11 +105,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Bords</div>
-              <input type="number" id="borderSize" min="0" max="30" step="1" class="form-control" placeholder="Largeur des bords" value="4">
+              <input id="borderSize" type="number" min="0" max="30" step="1" class="form-control" placeholder="Largeur des bords" value="4">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="30" step="1" value="6" id="borderSize2">
+            <input id="borderSize2" type="range" class="form-range" min="0" max="30" step="1" value="6">
           </div>
         </div>
 
@@ -123,7 +123,7 @@
           <div class="col-md-3 col-6">
             <div class="input-group" style="position: relative; left: 26px;">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" checked value="" id="square">
+                <input id="square" class="form-check-input" type="checkbox" checked value="">
                 <label class="form-check-label" for="square">L = H</label>
               </div>
             </div>
@@ -135,7 +135,7 @@
                   <span class="form-check-label text-center">Bords</span>
                 </div>
               </div>
-              <input type="color" id="borderColor" value="#444444" class="form-control color-input">
+              <input id="borderColor" type="color" value="#444444" class="form-control color-input">
             </div>
           </div>
         </div>
@@ -148,18 +148,18 @@
                   <span class="form-check-label text-center">Cadre</span>
                 </div>
               </div>
-            <input type="color" id="frameColor" value="#afc1c0" class="form-control color-input">
+            <input id="frameColor" type="color" value="#afc1c0" class="form-control color-input">
             </div>
           </div>
           <div class="col-md-3 col-6">
             <div class="input-group">
               <div class="input-group-text">
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" value="" id="back">
+                  <input id="back" class="form-check-input" type="checkbox" value="">
                   <label class="form-check-label" for="back">Fond&nbsp;&nbsp;</label>
                 </div>
               </div>
-              <input type="color" id="backColor" value="#444444" class="form-control color-input">
+              <input id="backColor" type="color" value="#444444" class="form-control color-input">
             </div>
           </div>
 
@@ -169,11 +169,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Cadre</div>
-              <input type="number" min="0" max="100" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="25" id="frameSize">
+              <input id="frameSize" type="number" min="0" max="100" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="0">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="100" step="1" value="10" id="frameSize2">
+            <input id="frameSize2" type="range" class="form-range" min="0" max="100" step="1" value="0">
           </div>
         </div>
         <!---->
@@ -181,11 +181,11 @@
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Marge</div>
-              <input type="number" min="0" max="100" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="12" id="paddingSize">
+              <input id="paddingSize" type="number" min="0" max="100" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="0">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="100" step="1" value="6" id="paddingSize2">
+            <input id="paddingSize2" type="range" class="form-range" min="0" max="100" step="1" value="0">
           </div>
         </div>
         <!---->
@@ -193,11 +193,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Angle&nbsp;</div>
-              <input type="number" min="0" max="800" step="1" style="padding-left:3px;"  id="frameAngle" class="form-control" placeholder="Angle du cadre" value="30">
+              <input id="frameAngle" type="number" min="0" max="800" step="1" style="padding-left:3px;" class="form-control" placeholder="Angle du cadre" value="0">
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="0" max="800" step="1" value="30" id="frameAngle2">
+            <input id="frameAngle2" type="range" class="form-range" min="0" max="800" step="1" value="0">
           </div>
         </div>
         <!---->
@@ -205,7 +205,7 @@
           <div class="col-md-2 col-5">
             <div class="input-group" style="position: relative; left: 20px;">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="rogner">
+                <input id="rogner" class="form-check-input" type="checkbox" value="">
                 <label class="form-check-label" for="rogner">Rognage</label>
               </div>
             </div>
@@ -216,13 +216,13 @@
           <div class="col-md-2 col-5">
             <div class="input-group" style="position: relative; left: 20px;">
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" value="" id="anim">
+                <input id="anim" class="form-check-input" type="checkbox" value="">
                 <label class="form-check-label" for="anim">Animation</label>
               </div>
             </div>
           </div>
           <div class="col">
-            <input type="range" class="form-range" min="50" max="5000" step="1" value="1500" id="anim2">
+            <input id="anim2" type="range" class="form-range" min="50" max="5000" step="1" value="1500">
           </div>
         </div>
         <!---->
@@ -237,7 +237,7 @@
         <!---->
       </form>
 </div>
-<div class="col-lg-5 col-sm-4" id="col-droite">
+<div id="col-droite" class="col-lg-5 col-sm-4">
       <!---->
     <!--<div  class="container-fluid" style="position: relative; top: -20px;">-->
       <div  id="mosaicContainer" class="transition-width"></div>
