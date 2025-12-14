@@ -1,44 +1,6 @@
 
 #mosaicContainer {
-    position: relative;
-}
-
-#mosaicGridOverlay::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-#mosaicGridOverlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none; /* ok pour html2canvas */
-    z-index: 5; /* s’assurer qu’il est au-dessus de la mosaic */
-
-    background-image:
-        repeating-linear-gradient(
-            90deg,
-            transparent 0,
-            transparent calc(100% / var(--cols) - 1px),
-            #999 calc(100% / var(--cols) - 1px),
-            #999 calc(100% / var(--cols))
-        ),
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent calc(100% / var(--rows) - 1px),
-            #999 calc(100% / var(--rows) - 1px),
-            #999 calc(100% / var(--rows))
-        );
-
-    /* IMPORTANT : pas de mix-blend-mode, pas de filter */
-    opacity: 1;
-}
-
-/* Tiles transparentes si nécessaire */
-.tile {
-  background-clip: padding-box;
+  position: relative;
 }
 
 #mosaic {
@@ -54,10 +16,12 @@
 }
 
 #mosaic .tile {
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
   width: 100%;
   height: auto;
   pointer-events: none;
+  /* background-clip: padding-box;  Tiles transparentes si nécessaire */
+  box-sizing: border-box;
 }
 
 span,
@@ -110,4 +74,38 @@ h6 {
 
 .transition-width {
   transition: width 0.3s ease;
+}
+
+
+#mosaicGridOverlay::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#mosaicGridOverlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* ok pour html2canvas */
+    z-index: 5; /* s’assurer qu’il est au-dessus de la mosaic */
+
+    background-image:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent calc(100% / var(--cols) - 1px),
+            #999 calc(100% / var(--cols) - 1px),
+            #999 calc(100% / var(--cols))
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent calc(100% / var(--rows) - 1px),
+            #999 calc(100% / var(--rows) - 1px),
+            #999 calc(100% / var(--rows))
+        );
+
+    /* IMPORTANT : pas de mix-blend-mode, pas de filter */
+    opacity: 1;
 }
