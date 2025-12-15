@@ -7,7 +7,7 @@ let frameSize = "6px";
 let borderSize = "4px";
 let paddingSize = "4px";
 let timer = null;
-let min = 50;
+let min = 100;
 let max = 5000;
 let tapTimer = null;
 let tapDelay = 350; // délai max entre deux taps
@@ -56,6 +56,7 @@ function generateMosaicGrid() {
     renderGrid(grid, H, L, colors);
     mosaic = $("#mosaic")[0];
     tile0 = $("#tile")[0];
+    //setBorderSize(mosaic);
 }
 
 function renderGrid(grid, H, L, colors) {
@@ -79,6 +80,10 @@ function renderGrid(grid, H, L, colors) {
         placeManualPiece(row, col);
     });
 
+    let borderColor = $("#borderColor").val();
+    let borderPix = mosaPix($("#borderSize").val()) + "px";
+    let radius = $("#angle").val() + "px";
+
     $(".tile").each(function (index) {
       let tile = this;
       let row = Math.floor(index / L);
@@ -99,7 +104,6 @@ function renderGrid(grid, H, L, colors) {
       $(tile).attr("data-border-bottom", borders.bottom);
       $(tile).attr("data-border-left", borders.left);
 /*
-      let borderPix = "0px;";
       if ( $("#tileBorder").get(0).checked ) {
         if ( H < 20 || L < 20 ) borderPix = "4px";
         else if ( H < 40 || L < 40 ) borderPix = "3px";
@@ -108,23 +112,20 @@ function renderGrid(grid, H, L, colors) {
         else borderPix = "0px";
       }
 */
-      borderPix = mosaPix($("#borderSize").val()) + "px";
-
-
 
       // Applique les bordures si nécessaires
-      tile.style.borderTop = borders.top ? borderPix + " solid " + $("#borderColor").val() : "none";
-      tile.style.borderRight = borders.right ?  borderPix + " solid " + $("#borderColor").val() : "none";
-      tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + $("#borderColor").val() : "none";
-      tile.style.borderLeft = borders.left ?  borderPix + " solid " + $("#borderColor").val() : "none";
+      tile.style.borderTop = borders.top ? borderPix + " solid " + borderColor : "none";
+      tile.style.borderRight = borders.right ?  borderPix + " solid " + borderColor : "none";
+      tile.style.borderBottom = borders.bottom ?  borderPix + " solid " + borderColor : "none";
+      tile.style.borderLeft = borders.left ?  borderPix + " solid " + borderColor : "none";
 
       // Coins arrondis
-      let radius = $("#angle").val() + "px"; // "10px"; // Ajustez selon l'effet désiré
       tile.style.borderTopLeftRadius = borders.top && borders.left ? radius : "0";
       tile.style.borderTopRightRadius = borders.top && borders.right ? radius : "0";
       tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
       tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
-    });
+
+    }); // end $(".tile").each
 
 
     // tiles visibility
@@ -161,7 +162,7 @@ function renderGrid(grid, H, L, colors) {
 
     $("#mosaicGridOverlay").css("display", "none");
 }
-/////////////////////////////////////////////////// E N D renderGrid
+////////////////////////////////// E N D renderGrid
 
 function setupManualSelector() {
     let html = `
@@ -214,12 +215,21 @@ function changeRadius(val) {
   let v = mosaPix(val);
   // if ( v <= 0 ) v = 1;  ? inutile
   v = v + "px";
-  let tiles = $(".tile");
+  let tiles = document.querySelectorAll(".tile");
+
+  const corners = [
+  "borderTopLeftRadius",
+  "borderTopRightRadius",
+  "borderBottomLeftRadius",
+  "borderBottomRightRadius"
+];
   for ( let t of tiles ) {
-    if ( $(t).css("border-top-left-radius") != "0px" ) $(t).css("border-top-left-radius", v);
-    if ( $(t).css("border-top-right-radius") != "0px" ) $(t).css("border-top-right-radius", v);
-    if ( $(t).css("border-bottom-left-radius") != "0px" ) $(t).css("border-bottom-left-radius", v);
-    if ( $(t).css("border-bottom-right-radius") != "0px" ) $(t).css("border-bottom-right-radius", v);
+    const cs = getComputedStyle(t);
+      for (const prop of corners) {
+        if (cs[prop] !== "0px") {
+          t.style[prop] = v;
+        }
+      }
   }
 }
 
@@ -313,38 +323,45 @@ function handleDouble() {
    formVisible = !formVisible;
 }
 
+////////   requestAnimationFrame
+let rafId = null;
+
+function scheduleUpdate() {
+  if (rafId) return;
+  rafId = requestAnimationFrame(() => {
+    generateMosaicGrid();  // updateTileBorder();
+    rafId = null;
+  });
+}
+
+
+/////////////////////////////////  setBorderSize
 function setBorderSize() {
   const slider = document.getElementById("borderSize2");
-   const sliderValue = parseInt(slider.value, 10);
+  const sliderValue = parseInt(slider.value, 10);
+  const mosaicRect = mosaic.getBoundingClientRect();
+  const rows = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--rows'), 10);
+  const cols = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--cols'), 10);
 
-   const mosaicRect = mosaic.getBoundingClientRect();
-
-   const rows = parseInt(
-     getComputedStyle(document.documentElement).getPropertyValue('--rows'),
-     10
-   );
-   const cols = parseInt(
-     getComputedStyle(document.documentElement).getPropertyValue('--cols'),
-     10
-   );
-
-   // taille réelle d’un tile
-   const tileSize = Math.min(
-     mosaicRect.width / cols,
-     mosaicRect.height / rows
-   );
+  // taille réelle d’un tile
+  const tileSize = Math.min(
+    mosaicRect.width / cols,
+    mosaicRect.height / rows
+  );
 
    // bordure maximale autorisée (reste visible au centre)
    const borderMaxPx = tileSize * 0.45;
 
    // slider = pourcentage du maximum
-   const borderPx = (sliderValue / 100) * borderMaxPx;
+   const borderPx = (sliderValue / 100) * borderMaxPx + "px";
 
    document.querySelectorAll(".tile").forEach(t => {
-       if (t.dataset.borderTop === "true")    t.style.borderTopWidth    = borderPx + "px";
-       if (t.dataset.borderRight === "true")  t.style.borderRightWidth  = borderPx + "px";
-       if (t.dataset.borderBottom === "true") t.style.borderBottomWidth = borderPx + "px";
-       if (t.dataset.borderLeft === "true")   t.style.borderLeftWidth   = borderPx + "px";
+       if (t.dataset.borderTop === "true")    t.style.borderTopWidth    = borderPx;
+       if (t.dataset.borderRight === "true")  t.style.borderRightWidth  = borderPx;
+       if (t.dataset.borderBottom === "true") t.style.borderBottomWidth = borderPx;
+       if (t.dataset.borderLeft === "true")   t.style.borderLeftWidth   = borderPx;
     });
 }
 
@@ -409,7 +426,7 @@ $(document).ready(function () {
       let val = min * Math.pow(max / min, t);      // progression géométrique
       clearInterval(timer);
       time = val;
-      setTimeout(animagic(val), 100);
+      animagic(val);
     }
   });
 
@@ -514,10 +531,10 @@ $(document).ready(function () {
   $(document).on("input", "#width", function(e) {
     $("#width2").val(this.value);
 
-    //if ( $("#square")[0].checked ) {
+    if ( $("#square")[0].checked ) {
       $("#height").val(this.value);
       $("#height2").val(this.value);
-    //}
+    }
     $("#submit").trigger("click");
   });
 /////
@@ -617,7 +634,8 @@ $(document).ready(function () {
   $('#mosaicForm').submit(function (event) {
       event.preventDefault();
       //manualMode = false;
-      setTimeout(generateMosaicGrid(), 0);
+    //  generateMosaicGrid();
+    scheduleUpdate();  // requestAnimationFrame
   });
 
   $('#toggleManualBtn').click(function () {
