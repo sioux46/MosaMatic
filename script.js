@@ -409,6 +409,58 @@ function mosaPix2() {
   return borderPx + 'px';
 }
 
+//////
+function saveForm(name) {
+  const data = {};
+
+  document.querySelectorAll('#mosaicForm input').forEach(input => {
+    if (input.type === 'checkbox') {
+      data[input.id] = input.checked;
+    } else {
+      data[input.id] = input.value;
+    }
+  });
+
+  localStorage.setItem('mosaic_' + name, JSON.stringify(data));
+  alert('Sauvegarde "' + name + '" enregistrée');
+}
+
+//////
+function loadForm(name) {
+  const saved = localStorage.getItem('mosaic_' + name);
+  if (!saved) {
+    alert('Aucune sauvegarde trouvée');
+    return;
+  }
+
+  const data = JSON.parse(saved);
+
+  Object.keys(data).forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
+
+    if (input.type === 'checkbox') {
+      input.checked = data[id];
+    } else {
+      input.value = data[id];
+    }
+
+    // Forcer la mise à jour des éventuels listeners
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('change'));
+  });
+  $("#submit").trigger("click");
+  alert('Sauvegarde "' + name + '" chargée');
+}
+
+//////
+function listSaves() {
+  return Object.keys(localStorage)
+    .filter(k => k.startsWith('mosaic_'))
+    .map(k => k.replace('mosaic_', ''));
+}
+
+  //***************************************** FIN FONCTIONS  **********
 
 
 
@@ -416,6 +468,27 @@ function mosaPix2() {
 ///////////////////////////////////////////////////////////////////  R  E  A  D  Y  //////
 ///////////////////////////////////////////////////////////////////                 //////
 $(document).ready(function () {
+
+  // sauvegarde client
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const name = document.getElementById('saveName').value.trim();
+    if (!name) {
+      alert('Veuillez donner un nom à la sauvegarde');
+      return;
+    }
+    saveForm(name);
+  });
+  document.getElementById('loadBtn').addEventListener('click', () => {
+    const name = document.getElementById('saveName').value.trim();
+    if (!name) {
+      alert('Indiquez le nom de la sauvegarde à charger');
+      return;
+    }
+    loadForm(name);
+  });
+  window.addEventListener('beforeunload', () => {
+    saveForm('auto');
+  });
 
   // gestion double click
   $("#mosaicContainer").on("click", function (e) {
