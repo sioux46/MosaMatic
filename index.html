@@ -69,7 +69,7 @@
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Angle</div>
-              <input id="angle" type="number" min="1" max="200" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
+              <input id="angle" type="number" min="0" max="200" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
             </div>
           </div>
           <div class="col">
@@ -81,11 +81,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Large</div>
-              <input id="width" type="number" min="2" max="30" step="1" class="form-control" placeholder="Largeur (L)" value="5">
+              <input id="width" type="number" min="2" max="100" step="1" class="form-control" placeholder="Largeur (L)" value="5">
             </div>
           </div>
           <div class="col">
-            <input id="width2" type="range" class="form-range" min="2" max="30" step="1" value="6">
+            <input id="width2" type="range" class="form-range" min="2" max="100" step="1" value="5">
           </div>
         </div>
         <!---->
@@ -93,11 +93,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Haut&nbsp;&nbsp;</div>
-              <input id="height" type="number" min="2" max="30" step="1" class="form-control" placeholder="Hauteur (H)" value="5">
+              <input id="height" type="number" min="2" max="100" step="1" class="form-control" placeholder="Hauteur (H)" value="5">
             </div>
           </div>
           <div class="col">
-            <input id="height2" type="range" class="form-range" min="2" max="30" step="1" value="6">
+            <input id="height2" type="range" class="form-range" min="2" max="100" step="1" value="5">
           </div>
         </div>
         <!---->
@@ -105,11 +105,11 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Bords</div>
-              <input id="borderSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Largeur des bords" value="4">
+              <input id="borderSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Largeur des bords" value="0">
             </div>
           </div>
           <div class="col">
-            <input id="borderSize2" type="range" class="form-range" min="0" max="100" step="1" value="6">
+            <input id="borderSize2" type="range" class="form-range" min="0" max="100" step="1" value="0">
           </div>
         </div>
 
@@ -221,8 +221,8 @@
               </div>
             </div>
           </div>
-          <div class="col">
-            <input id="anim2" type="range" class="form-range" min="100" max="5000" step="1" value="1000">
+          <div class="col ms-5">
+            <input id="anim2" type="range" class="form-range" min="100" max="5000" step="1" value="1000" style="transform: scaleX(-1);">
           </div>
         </div>
         <!---->

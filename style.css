@@ -21,7 +21,7 @@
   width: 100%;
   height: auto;
   pointer-events: none;
-  /* background-clip: padding-box;  Tiles transparentes si nécessaire */
+  background-clip: padding-box;  /* Tiles transparentes si nécessaire */
   box-sizing: border-box;
 }
 

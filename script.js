@@ -21,7 +21,7 @@ let flagSubmit = true;
 const SIDE_UNITS = 100;
 const MIN_VISIBLE_UNITS = 4;
 let mosaic;
-let tile0;
+let jqMosaic;
 
 
 function generateMosaicGrid() {
@@ -54,15 +54,12 @@ function generateMosaicGrid() {
         }
     }
     renderGrid(grid, H, L, colors);
-    mosaic = $("#mosaic")[0];
-    tile0 = $("#tile")[0];
-    //setBorderSize(mosaic);
 }
 
 function renderGrid(grid, H, L, colors) {
     let html = `<div id="mosaicGridOverlay"></div>
                 <div id="mosaic" style="grid-template-columns: repeat(${L}, 1fr);">`;
-    grid.flat().forEach(type => {
+    grid.flat().forEach((type, i) => {
         html += `<div class="tile ${type}" style="background-color:${colors[type]};  aspect-ratio: 1;"></div>`;
     });
     html += '</div>';
@@ -71,6 +68,8 @@ function renderGrid(grid, H, L, colors) {
     document.documentElement.style.setProperty('--cols', L);
     $('#mosaicContainer').html(html);
 
+    mosaic = $("#mosaic")[0];
+    jqMosaic = $("#mosaic");
 
     $(".tile").click(function () {
         if (!manualMode) return;
@@ -81,9 +80,10 @@ function renderGrid(grid, H, L, colors) {
     });
 
     let borderColor = $("#borderColor").val();
-    let borderPix = mosaPix($("#borderSize").val()) + "px";
+    let borderPix = mosaPix2();
     let radius = $("#angle").val() + "px";
 
+    //////           start $(".tile").each
     $(".tile").each(function (index) {
       let tile = this;
       let row = Math.floor(index / L);
@@ -125,7 +125,7 @@ function renderGrid(grid, H, L, colors) {
       tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
       tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
 
-    }); // end $(".tile").each
+    }); /////    end $(".tile").each
 
 
     // tiles visibility
@@ -298,7 +298,7 @@ function animagic() {
   let time = min * Math.pow(max / min, t);      // progression géométrique
 
   timer = setInterval(function() {
-    $("#submit").trigger("click");
+    $("#submit").trigger("click"); // génère la nouvelle mosaïque
   }, time);
 }
 
@@ -380,9 +380,36 @@ function boxOff() {
 ////// MMM pix size unit
 function mosaPix(val) {
   //return val;
-  if ( $("#mosaic").height() > $("#mosaic").width() ) return val * mosaPixUnit * $("#mosaic").width();
-  else return val * mosaPixUnit * $("#mosaic").height();
+  const mosaic = $("#mosaic");
+  if ( mosaic.height() > mosaic.width() ) return val * mosaPixUnit * mosaic.width();
+  else return val * mosaPixUnit * mosaic.height();
 }
+
+function mosaPix2() {
+  const slider = document.getElementById("borderSize2");
+  const sliderValue = parseInt(slider.value, 10);
+  const mosaicRect = mosaic.getBoundingClientRect();
+  const rows = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--rows'), 10);
+  const cols = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--cols'), 10);
+
+  // taille réelle d’un tile
+  const tileSize = Math.min(
+    mosaicRect.width / cols,
+    mosaicRect.height / rows
+  );
+
+  // bordure maximale autorisée (reste visible au centre)
+  const borderMaxPx = tileSize * 0.45;
+
+  // slider = pourcentage du maximum
+  const borderPx = (sliderValue / 100) * borderMaxPx;
+
+  return borderPx + 'px';
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////                 //////
@@ -414,8 +441,11 @@ $(document).ready(function () {
 
 ////// Animation
   $(document).on("input", "#anim", function(e) {
-    if ( this.checked )
-        setTimeout(animagic($("#anim2").val(), 0));
+
+    if ( this.checked ) {
+      $("#submit").trigger("click");
+      animagic($("#anim2").val());
+    }
     else clearInterval(timer);
   });
 
@@ -697,12 +727,5 @@ $(document).ready(function () {
 
   // cadrillage gpt
   $("#mosaicGridOverlay").css("display", "none");
-
-  ////////////////////////////////////////////////////////////
-  $("#borderSize, #borderSize2")
-        .attr("min", 0)
-        .attr("max", 100)
-        .attr("step", 1)
-        .val(0);
 
 });
