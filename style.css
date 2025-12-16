@@ -1,7 +1,31 @@
 
+* {
+  outline: 1px solid red;
+}
+
+body::before {
+  content: "XS";
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: red;
+  color: white;
+  z-index: 9999;
+  padding: 4px;
+}
+
+@media (min-width: 576px) {
+  body::before {
+    content: "SM+";
+    background: green;
+  }
+}
+
 #mosaicContainer {
   position: relative;
-  margin: 0 0.2rem 0 0.2rem;
+  margin: 0.2rem 0 2rem 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 #mosaic {
@@ -17,7 +41,7 @@
 }
 
 #mosaic .tile {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
   width: 100%;
   height: auto;
   pointer-events: none;

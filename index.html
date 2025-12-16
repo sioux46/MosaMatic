@@ -2,18 +2,21 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MosaMagic moderne</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container-fluid mt-4" style="position: relative; top: -20px;">
+    <!--<div class="container-fluid mt-4" style="position: relative; top: -20px;">-->
+    <div class="container-fluid mt-4" style="position: relative;">
       <h1 class="text-center" style="margin-bottom:0;"><span>MosaMagic</span></h1>
       <h6 class="text-center">Moderne</h6>
 <div class="row"> <!-- formulaire -->
-<div id="col-gauche" class="col-lg-8 col-sm-7">
-      <form id="mosaicForm" style="position:relative; top: -5px">
+<div id="col-gauche" class="col-12 col-sm-7 col-lg-8">
+      <!--<form id="mosaicForm" style="position:relative; top: -5px">-->
+      <form id="mosaicForm" style="position:relative;">
         <!---->
         <div class="row mb-1">
             <div class="col-md-3 col-6">
@@ -53,7 +56,7 @@
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
-                    <input id="tilec4" class="form-check-input" type="checkbox" checked value=""">
+                    <input id="tilec4" class="form-check-input" type="checkbox" checked value="">
                     <label class="form-check-label" for="tilec4">1x2</label>
                   </div>
                 </div>
@@ -69,7 +72,8 @@
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Angle</div>
-              <input id="angle" type="number" min="0" max="200" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">
+              <!--<input id="angle" type="number" min="0" max="200" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">-->
+              <input id="angle" type="number" min="0" max="200" step="1" class="form-control" placeholder="" value="30">
             </div>
           </div>
           <div class="col">
@@ -115,7 +119,8 @@
         <!--                 L = H      Bords  -->
         <div class="row mb-1">
           <div class="col-md-3 col-6">
-            <div class="input-group" style="position: relative; left: 26px;">
+            <!--<div class="input-group" style="position: relative; left: 26px;">-->
+            <div class="input-group" style="position: relative;">
               <div class="form-check form-switch">
                 <input id="square" class="form-check-input" type="checkbox" checked value="">
                 <label class="form-check-label" for="square">L = H</label>
@@ -163,7 +168,8 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Cadre</div>
-              <input id="frameSize" type="number" min="0" max="100" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="0">
+              <!--<input id="frameSize" type="number" min="0" max="100" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="0">-->
+              <input id="frameSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Taille du cadre" value="0">
             </div>
           </div>
           <div class="col">
@@ -175,7 +181,8 @@
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Marge</div>
-              <input id="paddingSize" type="number" min="0" max="100" step="1" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="0">
+              <!--<input id="paddingSize" type="number" min="0" max="100" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="0">-->
+              <input id="paddingSize" type="number" min="0" max="100" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="0">
             </div>
           </div>
           <div class="col">
@@ -187,7 +194,8 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Angle&nbsp;</div>
-              <input id="frameAngle" type="number" min="0" max="800" step="1" style="padding-left:3px;" class="form-control" placeholder="Angle du cadre" value="0">
+              <!--<input id="frameAngle" type="number" min="0" max="800" step="1" style="padding-left:3px;" class="form-control" placeholder="Angle du cadre" value="0">-->
+              <input id="frameAngle" type="number" min="0" max="800" step="1" class="form-control" placeholder="Angle du cadre" value="0">
             </div>
           </div>
           <div class="col">
@@ -197,7 +205,8 @@
         <!---->
         <div class="row mb-1">
           <div class="col-md-2 col-5">
-            <div class="input-group" style="position: relative; left: 20px;">
+            <!--<div class="input-group" style="position: relative; left: 20px;">-->
+            <div class="input-group" style="position: relative;">
               <div class="form-check form-switch">
                 <input id="rogner" class="form-check-input" type="checkbox" value="">
                 <label class="form-check-label" for="rogner">Rognage</label>
@@ -208,7 +217,8 @@
         <!---->
         <div class="row mb-1">
           <div class="col-md-2 col-5">
-            <div class="input-group" style="position: relative; left: 20px;">
+            <!--<div class="input-group" style="position: relative; left: 20px;">-->
+            <div class="input-group" style="position: relative;">
               <div class="form-check form-switch">
                 <input id="anim" class="form-check-input" type="checkbox" value="">
                 <label class="form-check-label" for="anim">Animation</label>
@@ -221,18 +231,32 @@
         </div>
         <!---->
         <div class="row mb-2">
-          <div class="col-6">
-            <input id="saveName" type="text" class="form-control form-control-sm" placeholder="Nom de la sauvegarde">
+          <div class="col-4">
+            <input id="saveName" type="text"
+                   class="form-control form-control-sm"
+                   placeholder="Nom de la sauvegarde">
           </div>
+
           <div class="col-3">
-            <button id="saveBtn" type="button" class="btn btn-sm btn-success w-100">Sauver</button>
+            <button id="saveBtn" type="button"
+                    class="btn btn-sm btn-success w-100">
+              Sauver
+            </button>
           </div>
+
+          <div class="col-2">
+            <select id="loadSelect"
+                    class="form-select form-select-sm">
+              <option value="">Charger…</option>
+            </select>
+          </div>
+
           <div class="col-3">
-             <select id="loadSelect"
-                     class="form-select form-select-sm">
-               <option value="">Charger…</option>
-             </select>
-           </div>
+            <select id="deleteSelect"
+                    class="form-select form-select-sm text-danger">
+              <option value="">Supprimer…</option>
+            </select>
+          </div>
         </div>
         <!---->
         <div class="row mb-2 mt-2">
@@ -246,9 +270,8 @@
         <!---->
       </form>
 </div>
-<div id="col-droite" class="col-lg-5 col-sm-4">
+<div id="col-droite" class="col-12 col-sm-5 col-lg-4">
       <!---->
-    <!--<div  class="container-fluid" style="position: relative; top: -20px;">-->
       <div  id="mosaicContainer" class="transition-width"></div>
     <!--</div>-->
 </div> <!--fin col-->

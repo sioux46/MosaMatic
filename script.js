@@ -310,12 +310,12 @@ function handleDouble() {
        $("#col-gauche").slideUp(400, function () {
            // Une fois le slide terminé, élargir la colonne droite
            //$("#col-droite").removeClass("col-lg-5").removeClass("col-sm-4").addClass("col-12");
-           $("#col-droite")[0].classList.value = "col-12";
+           //$("#col-droite")[0].classList.value = "col-12";
        });
    } else {
        // Rétrécir la colonne droite avant de réafficher la gauche
        //$("#col-droite").removeClass("col-12").addClass("col-lg-5").addClass("col-sm-4");
-       $("#col-droite")[0].classList.value = colDroite;
+       //$("#col-droite")[0].classList.value = colDroite;
 
        // Réafficher la colonne gauche
        $("#col-gauche").slideDown(400);
@@ -385,7 +385,7 @@ function mosaPix(val) {
   else return val * mosaPixUnit * mosaic.height();
 }
 
-function mosaPix2() {
+function mosaPix2() {  /// for redraw only
   const slider = document.getElementById("borderSize2");
   const sliderValue = parseInt(slider.value, 10);
   const mosaicRect = mosaic.getBoundingClientRect();
@@ -422,28 +422,25 @@ function saveForm(name) {
   });
 
   localStorage.setItem('mosaic_' + name, JSON.stringify(data));
-  alert('Sauvegarde "' + name + '" enregistrée');
+  if ( name != "_auto" ) alert('Sauvegarde "' + name + '" enregistrée');
 }
 
 //////
 function loadForm(name) {
   const saved = localStorage.getItem('mosaic_' + name);
   if (!saved) {
-    alert('Aucune sauvegarde trouvée');
+    alert('Zéro sauvegarde');
     return;
   }
-
+  //refreshSaveSelect();
   const data = JSON.parse(saved);
 
   Object.keys(data).forEach(id => {
     const input = document.getElementById(id);
     if (!input) return;
 
-    if (input.type === 'checkbox') {
-      input.checked = data[id];
-    } else {
-      input.value = data[id];
-    }
+    if (input.type === 'checkbox') input.checked = data[id];
+    else input.value = data[id];
 
     // Forcer la mise à jour des éventuels listeners
     input.dispatchEvent(new Event('input'));
@@ -476,6 +473,45 @@ function refreshSaveSelect() {
     select.appendChild(option);
   });
 }
+//  delete
+function deleteSave(name) {
+  if (!localStorage.getItem('mosaic_' + name)) return;
+
+  if (!confirm('Supprimer la sauvegarde "' + name + '" ?')) return;
+
+  localStorage.removeItem('mosaic_' + name);
+  refreshSaveSelect();
+  refreshDeleteSelect();
+
+  if (document.getElementById('saveName').value === name) {
+    document.getElementById('saveName').value = '';
+  }
+}
+
+function refreshDeleteSelect() {
+  const select = document.getElementById('deleteSelect');
+  select.innerHTML = '<option value="">Supprimer…</option>';
+
+  getSaveList().forEach(name => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+}
+
+// synchro
+function refreshAllMenus() {
+  refreshSaveSelect();
+  refreshDeleteSelect();
+  //toggleDeleteMenu();
+}
+
+function toggleDeleteMenu() {
+  const select = document.getElementById('deleteSelect');
+  select.disabled = getSaveList().length === 0;
+}
+
 
 
   //***************************************** FIN FONCTIONS  **********
@@ -487,40 +523,9 @@ function refreshSaveSelect() {
 ///////////////////////////////////////////////////////////////////                 //////
 $(document).ready(function () {
 
-  // sauvegarde client
-  document.getElementById('saveBtn').addEventListener('click', () => {
-    const name = document.getElementById('saveName').value.trim();
-    if (!name) {
-      alert('Veuillez donner un nom à la sauvegarde');
-      return;
-    }
-    saveForm(name);
-    refreshSaveSelect();
-  });
-  document.getElementById('loadSelect').addEventListener('change', function () {
-    if (!this.value) return;
-    loadForm(this.value);
-  });
-  document.addEventListener('DOMContentLoaded', () => {
-    refreshSaveSelect();
-  });
-  document.getElementById('saveName').value = name;
-
-  /*
-  document.getElementById('loadBtn').addEventListener('click', () => {
-    const name = document.getElementById('saveName').value.trim();
-    if (!name) {
-      alert('Indiquez le nom de la sauvegarde à charger');
-      return;
-    }
-    loadForm(name);
-  });
+  // save
   window.addEventListener('beforeunload', () => {
-    saveForm('auto');
-  });
-  document.getElementById('loadSelect').addEventListener('change', function () {
-    if (!this.value) return;
-    loadForm(this.value);
+    saveForm('_auto');
   });
   document.getElementById('saveBtn').addEventListener('click', () => {
     const name = document.getElementById('saveName').value.trim();
@@ -529,10 +534,20 @@ $(document).ready(function () {
       return;
     }
     saveForm(name);
-    refreshSaveSelect();
+    refreshAllMenus();
   });
-  document.getElementById('saveName').value = name;
-*/
+  // load
+  document.getElementById('loadSelect').addEventListener('change', function () {
+    if (!this.value) return;
+    loadForm(this.value);
+    this.value = '';
+  });
+  // delele
+  document.getElementById('deleteSelect').addEventListener('change', function () {
+    if (!this.value) return;
+    deleteSave(this.value);
+    this.value = '';
+  });
 
   // gestion double click
   $("#mosaicContainer").on("click", function (e) {
@@ -543,7 +558,6 @@ $(document).ready(function () {
         handleDouble();
         return;
     }
-
     // Gestion du double-tap mobile
     if (tapTimer == null) {
         tapTimer = setTimeout(() => {
@@ -556,7 +570,7 @@ $(document).ready(function () {
     }
   });
 
-////// Animation
+  ////// Animation
   $(document).on("input", "#anim", function(e) {
 
     if ( this.checked ) {
@@ -651,8 +665,6 @@ $(document).ready(function () {
     if ( $("#paddingSize").val() == "0" )
           $("#mosaic").css("padding", 0);
   });
-
-
 
   ////// H & L
   $(document).on("input", "#height", function(e) {
@@ -823,8 +835,8 @@ $(document).ready(function () {
     $("#anim").trigger("click");
   });
 
-  $("#col-droite")[0].classList.value = colDroite;
-  $("#col-gauche")[0].classList.value = colGauche;
+  //$("#col-droite")[0].classList.value = colDroite;
+  //$("#col-gauche")[0].classList.value = colGauche;
 
   // Changement de taille d'un div
   const observer = new ResizeObserver(() => {
@@ -838,6 +850,8 @@ $(document).ready(function () {
   });
   observer.observe($("#mosaicContainer")[0]);
 
+  // charger les Menus
+  refreshAllMenus();
 
   // start anim
   // $("#anim").trigger("click");
