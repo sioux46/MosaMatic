@@ -459,6 +459,24 @@ function listSaves() {
     .filter(k => k.startsWith('mosaic_'))
     .map(k => k.replace('mosaic_', ''));
 }
+function getSaveList() {
+  return Object.keys(localStorage)
+    .filter(k => k.startsWith('mosaic_'))
+    .map(k => k.replace('mosaic_', ''))
+    .sort();
+}
+function refreshSaveSelect() {
+  const select = document.getElementById('loadSelect');
+  select.innerHTML = '<option value="">Charger…</option>';
+
+  getSaveList().forEach(name => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+}
+
 
   //***************************************** FIN FONCTIONS  **********
 
@@ -477,7 +495,18 @@ $(document).ready(function () {
       return;
     }
     saveForm(name);
+    refreshSaveSelect();
   });
+  document.getElementById('loadSelect').addEventListener('change', function () {
+    if (!this.value) return;
+    loadForm(this.value);
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    refreshSaveSelect();
+  });
+  document.getElementById('saveName').value = name;
+
+  /*
   document.getElementById('loadBtn').addEventListener('click', () => {
     const name = document.getElementById('saveName').value.trim();
     if (!name) {
@@ -489,6 +518,21 @@ $(document).ready(function () {
   window.addEventListener('beforeunload', () => {
     saveForm('auto');
   });
+  document.getElementById('loadSelect').addEventListener('change', function () {
+    if (!this.value) return;
+    loadForm(this.value);
+  });
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const name = document.getElementById('saveName').value.trim();
+    if (!name) {
+      alert('Veuillez donner un nom à la sauvegarde');
+      return;
+    }
+    saveForm(name);
+    refreshSaveSelect();
+  });
+  document.getElementById('saveName').value = name;
+*/
 
   // gestion double click
   $("#mosaicContainer").on("click", function (e) {
