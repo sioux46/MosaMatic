@@ -9,17 +9,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!--<div class="container-fluid mt-4" style="position: relative; top: -20px;">-->
     <div class="container-fluid mt-4" style="position: relative;">
       <h1 class="text-center" style="margin-bottom:0;"><span>MosaMagic</span></h1>
       <h6 class="text-center">Moderne</h6>
-<div class="row"> <!-- formulaire -->
-<div id="col-gauche" class="col-12 col-sm-7 col-lg-8">
-      <!--<form id="mosaicForm" style="position:relative; top: -5px">-->
+<div class="row"> <!-- global -->
+  <div id="col-gauche" class="col-md-6 col-sm-8">
       <form id="mosaicForm" style="position:relative;">
         <!---->
         <div class="row mb-1">
-            <div class="col-md-3 col-6">
+            <div class="col-lg-6 col-md-6 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
@@ -30,7 +28,7 @@
                 <input id="color1" type="color" value="#d05860" class="form-control color-input">
               </div>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-6 col-md-6 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
@@ -41,7 +39,7 @@
                 <input id="color2" type="color" value="#dccbcc" class="form-control color-input">
               </div>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-6 col-md-6 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
@@ -52,7 +50,7 @@
                 <input id="color3" type="color" value="#646d82" class="form-control color-input">
               </div>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-6 col-md-6 col-6">
               <div class="input-group">
                 <div class="input-group-text">
                   <div class="form-check form-switch" >
@@ -72,12 +70,22 @@
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Angle</div>
-              <!--<input id="angle" type="number" min="0" max="200" step="1" style="padding-left:3px;" class="form-control" placeholder="" value="30">-->
-              <input id="angle" type="number" min="0" max="200" step="1" class="form-control" placeholder="" value="30">
+              <input id="angle" type="number" min="0" max="200" step="1" class="form-control" placeholder="" value="1">
             </div>
           </div>
           <div class="col">
-            <input id="angle2" type="range" class="form-range" min="1" max="100" step="1" value="30">
+            <input id="angle2" type="range" class="form-range" min="1" max="100" step="1" value="1">
+          </div>
+        </div>
+        <!---->
+        <div class="row mb-0">
+          <div class="col-md-6 col-8">
+            <div class="input-group" style="position: relative;">
+              <div class="form-check form-switch">
+                <input id="square" class="form-check-input" type="checkbox" checked value="">
+                <label class="form-check-label" for="square">Largeur = Hauteur</label>
+              </div>
+            </div>
           </div>
         </div>
         <!---->
@@ -93,7 +101,7 @@
           </div>
         </div>
         <!---->
-        <div class="row mb-0">
+        <div class="row mb-2">
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Haut&nbsp;&nbsp;</div>
@@ -117,17 +125,8 @@
           </div>
         </div>
         <!--                 L = H      Bords  -->
-        <div class="row mb-1">
-          <div class="col-md-3 col-6">
-            <!--<div class="input-group" style="position: relative; left: 26px;">-->
-            <div class="input-group" style="position: relative;">
-              <div class="form-check form-switch">
-                <input id="square" class="form-check-input" type="checkbox" checked value="">
-                <label class="form-check-label" for="square">L = H</label>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6">
+        <div class="row mb-2">
+          <div class="col-md-6 col-6">
             <div class="input-group">
               <div class="input-group-text">
                 <div>
@@ -139,9 +138,22 @@
           </div>
         </div>
         <!---->
+        <!--          Angle Taille-->
         <div class="row">
-          <div class="col-md-3 col-6">
-            <div class="input-group mt-4 mb-1">
+          <div class="col-5 col-md-6 col-sm-5">
+            <div class="input-group">
+              <div class="input-group-text">Cadre</div>
+              <input id="frameSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Taille du cadre" value="0">
+            </div>
+          </div>
+          <div class="col">
+            <input id="frameSize2" type="range" class="form-range" min="0" max="100" step="1" value="0">
+          </div>
+        </div>
+        <!---->
+        <div class="row">
+          <div class="col-md-6 col-6">
+            <div class="input-group mt-0 mb-1">
               <div class="input-group-text">
                 <div>
                   <span class="form-check-label text-center">Cadre</span>
@@ -150,7 +162,7 @@
             <input id="frameColor" type="color" value="#afc1c0" class="form-control color-input">
             </div>
           </div>
-          <div class="col-md-3 col-6">
+          <div class="col-md-6 col-6">
             <div class="input-group">
               <div class="input-group-text">
                 <div class="form-check form-switch">
@@ -163,26 +175,12 @@
           </div>
 
         </div>
-        <!--          Angle Taille-->
-        <div class="row">
-          <div class="col-5 col-md-6 col-sm-5">
-            <div class="input-group">
-              <div class="input-group-text">Cadre</div>
-              <!--<input id="frameSize" type="number" min="0" max="100" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille du cadre" value="0">-->
-              <input id="frameSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Taille du cadre" value="0">
-            </div>
-          </div>
-          <div class="col">
-            <input id="frameSize2" type="range" class="form-range" min="0" max="100" step="1" value="0">
-          </div>
-        </div>
-        <!---->
+
         <div class="row">
           <div class="col-5 col-md-6 col-sm-5 mb-2">
             <div class="input-group">
               <div class="input-group-text">Marge</div>
-              <!--<input id="paddingSize" type="number" min="0" max="100" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="0">-->
-              <input id="paddingSize" type="number" min="0" max="100" style="padding-left:3px;" step="1" class="form-control" placeholder="Taille de la marge" value="0">
+              <input id="paddingSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Taille de la marge" value="0">
             </div>
           </div>
           <div class="col">
@@ -194,7 +192,6 @@
           <div class="col-5 col-md-6 col-sm-5">
             <div class="input-group">
               <div class="input-group-text">Angle&nbsp;</div>
-              <!--<input id="frameAngle" type="number" min="0" max="800" step="1" style="padding-left:3px;" class="form-control" placeholder="Angle du cadre" value="0">-->
               <input id="frameAngle" type="number" min="0" max="800" step="1" class="form-control" placeholder="Angle du cadre" value="0">
             </div>
           </div>
@@ -205,7 +202,6 @@
         <!---->
         <div class="row mb-1">
           <div class="col-md-2 col-5">
-            <!--<div class="input-group" style="position: relative; left: 20px;">-->
             <div class="input-group" style="position: relative;">
               <div class="form-check form-switch">
                 <input id="rogner" class="form-check-input" type="checkbox" value="">
@@ -217,7 +213,6 @@
         <!---->
         <div class="row mb-1">
           <div class="col-md-2 col-5">
-            <!--<div class="input-group" style="position: relative; left: 20px;">-->
             <div class="input-group" style="position: relative;">
               <div class="form-check form-switch">
                 <input id="anim" class="form-check-input" type="checkbox" value="">
@@ -226,61 +221,80 @@
             </div>
           </div>
           <div class="col ms-5">
-            <input id="anim2" type="range" class="form-range" min="100" max="5000" step="1" value="1000" style="transform: scaleX(-1);">
+            <input id="anim2" type="range" class="form-range" min="100" max="5000" step="1" value="2500" style="transform: scaleX(-1);">
           </div>
         </div>
-        <!---->
-        <div class="row mb-2">
-          <div class="col-4">
+
+        <!-- sauvegarde -->
+        <div class="row mb-0">
+          <div class="col-6">
             <input id="saveName" type="text"
                    class="form-control form-control-sm"
-                   placeholder="Nom de la sauvegarde">
+                   placeholder="Nom sauvegarde">
           </div>
-
-          <div class="col-3">
-            <button id="saveBtn" type="button"
-                    class="btn btn-sm btn-success w-100">
-              Sauver
-            </button>
-          </div>
-
-          <div class="col-2">
+          <div class="col-6">
             <select id="loadSelect"
                     class="form-select form-select-sm">
               <option value="">Charger…</option>
             </select>
           </div>
-
-          <div class="col-3">
+        </div>
+        <!---->
+        <div class="row mb-2">
+          <div class="col-6">
+            <button id="saveBtn" type="button"
+                    class="btn btn-sm btn-success w-100">
+              Sauver
+            </button>
+          </div>
+          <div class="col-6">
             <select id="deleteSelect"
                     class="form-select form-select-sm text-danger">
               <option value="">Supprimer…</option>
             </select>
           </div>
         </div>
-        <!---->
-        <div class="row mb-2 mt-2">
+        <!--  fin sauvegarde -->
+
+        <div class="row mb-2 mt-3">
+          <!--
           <div class="col-6">
-              <button id="exportBtn" type="button" class="btn btn-sm btn-light w-100">Poster</button>
+              <button id="btnCapture" type="button" class="btn btn-sm btn-light w-100">Poster</button>
+          </div>
+          -->
+          <div class="col-3">
           </div>
           <div class="col-6">
-              <button id="submit" type="submit" class="btn btn-sm btn-dark w-100">Mosaïque</button>
+              <button id="submit" type="submit" class="btn btn-sm btn-dark w-100"><strong>C'est magique !</strong></button>
+          </div>
+          <div class="col-3">
           </div>
         </div>
         <!---->
       </form>
-</div>
-<div id="col-droite" class="col-12 col-sm-5 col-lg-4">
+  </div> <!--fin col gauche-->
+  <div id="col-droite" class="col-md-6 col-sm-4">
       <!---->
-      <div  id="mosaicContainer" class="transition-width"></div>
+      <div class= "row">
+        <div class= "col-12">
+          <div  id="mosaicContainer"></div>  <!--class="transition-width"-->
+        </div>
+      </div>
+      <div class= "row">
+        <div class= "col-12">
+          <button id="btnCapture" type="button" class="btn btn-sm btn-light w-100">Exporter le poster</button>
+        </div>
+      </div>
     <!--</div>-->
-</div> <!--fin col-->
-</div> <!--fin row-->
-  </div>  <!-- fin container -->
+  </div> <!--fin col droite-->
+</div> <!--fin row form-->
+    </div>  <!-- fin container -->
 
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>

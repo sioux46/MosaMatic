@@ -10,10 +10,10 @@ let timer = null;
 let min = 100;
 let max = 5000;
 let tapTimer = null;
-let tapDelay = 350; // délai max entre deux taps
+let tapDelay = 300; // délai max entre deux taps
 let formVisible = true;
-let colGauche = 'col-lg-6 col-md-7 col-sm-8'; // form
-let colDroite = 'col-lg-6 col-md-5 col-sm-4'; // mosaic
+const colGauche = 'col-md-6 col-sm-8'; // 'col-lg-6 col-md-7 col-sm-8'; // form
+const colDroite = 'col-md-6 col-sm-4'; // 'col-lg-6 col-md-5 col-sm-4'; // mosaic
 let mosaPixUnit = 0.002;
 let $frameSize = $("#frameSize");
 let $frameSize2 = $("#frameSize2");
@@ -112,7 +112,6 @@ function renderGrid(grid, H, L, colors) {
         else borderPix = "0px";
       }
 */
-
       // Applique les bordures si nécessaires
       tile.style.borderTop = borders.top ? borderPix + " solid " + borderColor : "none";
       tile.style.borderRight = borders.right ?  borderPix + " solid " + borderColor : "none";
@@ -302,6 +301,7 @@ function animagic() {
   }, time);
 }
 
+
 ////// fullScreen
 function handleDouble() {
     console.log("DOUBLE CLIC / DOUBLE TAP !");
@@ -310,22 +310,33 @@ function handleDouble() {
        $("#col-gauche").slideUp(400, function () {
            // Une fois le slide terminé, élargir la colonne droite
            //$("#col-droite").removeClass("col-lg-5").removeClass("col-sm-4").addClass("col-12");
-           //$("#col-droite")[0].classList.value = "col-12";
+           $("#col-droite")[0].classList.value = "col-12";
        });
    } else {
        // Rétrécir la colonne droite avant de réafficher la gauche
        //$("#col-droite").removeClass("col-12").addClass("col-lg-5").addClass("col-sm-4");
-       //$("#col-droite")[0].classList.value = colDroite;
+       $("#col-droite")[0].classList.value = colDroite;
 
        // Réafficher la colonne gauche
+       window.scrollTo({
+         top: document.documentElement.scrollHeight,
+         behavior: 'smooth' // optional
+       });
+
        $("#col-gauche").slideDown(400);
-   }
-   formVisible = !formVisible;
+       setTimeout(function () {
+         window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth' // optional
+              });
+          }, 450);
+
+        }
+        formVisible = !formVisible;
 }
 
 ////////   requestAnimationFrame
 let rafId = null;
-
 function scheduleUpdate() {
   if (rafId) return;
   rafId = requestAnimationFrame(() => {
@@ -368,7 +379,7 @@ function setBorderSize() {
 
 /////// quadrillage on off
 function boxOn() {
-  $(".tile").css({"box-shadow": "0 0 0 0.2px currentColor", "tansform": "translate(-0.2px, -0.2px)"});
+  $(".tile").css({"box-shadow": "0 0 0 0.3px currentColor", "tansform": "translate(-0.3px, -0.3px)"});
 }
 function boxOff() {
   $(".tile").css({"box-shadow": "0 0 0 0", "tansform": "none"});
@@ -379,7 +390,7 @@ function boxOff() {
 
 ////// MMM pix size unit
 function mosaPix(val) {
-  //return val;
+  //return val;sc
   const mosaic = $("#mosaic");
   if ( mosaic.height() > mosaic.width() ) return val * mosaPixUnit * mosaic.width();
   else return val * mosaPixUnit * mosaic.height();
@@ -422,14 +433,14 @@ function saveForm(name) {
   });
 
   localStorage.setItem('mosaic_' + name, JSON.stringify(data));
-  if ( name != "_auto" ) alert('Sauvegarde "' + name + '" enregistrée');
+  //if ( name != "_auto" ) alert(name + '" enregistrée');
 }
 
 //////
 function loadForm(name) {
   const saved = localStorage.getItem('mosaic_' + name);
   if (!saved) {
-    alert('Zéro sauvegarde');
+    //alert('Zéro sauvegarde');
     return;
   }
   //refreshSaveSelect();
@@ -446,8 +457,10 @@ function loadForm(name) {
     input.dispatchEvent(new Event('input'));
     input.dispatchEvent(new Event('change'));
   });
+
+  if ( $("#anim")[0].checked ) animagic($("#anim2").val());
   $("#submit").trigger("click");
-  alert('Sauvegarde "' + name + '" chargée');
+  //alert(name + '" chargée');
 }
 
 //////
@@ -477,7 +490,7 @@ function refreshSaveSelect() {
 function deleteSave(name) {
   if (!localStorage.getItem('mosaic_' + name)) return;
 
-  if (!confirm('Supprimer la sauvegarde "' + name + '" ?')) return;
+  if (!confirm('Supprimer "' + name + '" ?')) return;
 
   localStorage.removeItem('mosaic_' + name);
   refreshSaveSelect();
@@ -514,6 +527,38 @@ function toggleDeleteMenu() {
 
 
 
+
+
+function resizeMosaic() {
+    const container = document.getElementById('mosaicContainer');
+
+    // Force recalcul après rotation iOS
+    container.style.width = '100%';
+    container.style.maxWidth = '100%';
+
+    // Si tu utilises un canvas
+    const canvas = container.querySelector('canvas');
+    if (canvas) {
+        const rect = container.getBoundingClientRect();
+        canvas.width  = rect.width;
+        canvas.height = rect.width; // ou height si non carré
+    }
+
+    // relancer le rendu si nécessaire
+    if (typeof drawMosaic === 'function') {
+        drawMosaic();
+    }
+}
+
+// iOS friendly
+window.addEventListener('orientationchange', () => {
+    setTimeout(resizeMosaic, 300);
+});
+
+window.addEventListener('resize', () => {
+    setTimeout(resizeMosaic, 300);
+});
+
   //***************************************** FIN FONCTIONS  **********
 
 
@@ -522,6 +567,43 @@ function toggleDeleteMenu() {
 ///////////////////////////////////////////////////////////////////  R  E  A  D  Y  //////
 ///////////////////////////////////////////////////////////////////                 //////
 $(document).ready(function () {
+
+  // screenshot
+  document.getElementById("btnCapture").addEventListener("click", () => {
+    const node = document.getElementById("mosaic");
+
+    // to .png
+    domtoimage.toPng(node)
+    .then(dataUrl => {
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "MosaMagic.png";
+      link.click();
+    })
+    .catch(err => console.error(err));
+/*
+    // to clipboard
+    domtoimage.toBlob(node, { // erreur CSS cross-origin
+      filter: function (node) {
+        return true;
+      }
+    });
+    domtoimage.toBlob(node)
+    .then(function (blob) {
+      return navigator.clipboard.write([
+        new ClipboardItem({
+          "image/png": blob
+        })
+      ]);
+    })
+    .then(function () {
+      console.log("📋 Image copiée dans le presse-papiers");
+    })
+    .catch(function (err) {
+      console.error("Erreur clipboard :", err);
+    });
+*/
+  });
 
   // save
   window.addEventListener('beforeunload', () => {
@@ -549,7 +631,8 @@ $(document).ready(function () {
     this.value = '';
   });
 
-  // gestion double click
+// gestion double click
+/*
   $("#mosaicContainer").on("click", function (e) {
     // Gestion du double-clic desktop (natif)
     // → e.detail === 2 signifie "2 clics"
@@ -569,6 +652,51 @@ $(document).ready(function () {
         handleDouble();
     }
   });
+*/
+  $(function() {
+    var lastUpTime = 0, lastX = 0, lastY = 0;
+    var THRESH_MS = 350, THRESH_PX = 30;
+    var singleTimer = null;
+
+    $('#mosaicContainer').on('pointerup', function(e){
+      var now = Date.now();
+      var x = e.originalEvent.clientX, y = e.originalEvent.clientY;
+      var $el = $(this);
+
+      if (now - lastUpTime < THRESH_MS &&
+          Math.abs(x - lastX) < THRESH_PX &&
+          Math.abs(y - lastY) < THRESH_PX) {
+        clearTimeout(singleTimer);
+        // double detected
+        doubleAction($el, e);
+        lastUpTime = 0;
+      } else {
+        // schedule single
+        lastUpTime = now; lastX = x; lastY = y;
+        clearTimeout(singleTimer);
+        singleTimer = setTimeout(function(){
+          singleAction($el, e);
+          lastUpTime = 0;
+        }, THRESH_MS + 20);
+      }
+    });
+
+    // si tu veux aussi gérer dblclick natif pour la souris (optionnel)
+    /*$('.btn').on('dblclick', function(e){
+      clearTimeout(singleTimer);
+      doubleAction($(this), e);
+    });*/
+
+    function singleAction($el, e){
+       console.log('single', $el);
+       $("#submit").trigger("click");
+    }
+    function doubleAction($el, e){
+      console.log('double', $el);
+      handleDouble();
+    }
+  });
+
 
   ////// Animation
   $(document).on("input", "#anim", function(e) {
@@ -831,12 +959,12 @@ $(document).ready(function () {
   $("#mosaic").css({border: "4px solid #444 !important"});
   // $("#square").trigger("click");
 
-  $("#mosaicContainer").on( "click", function() {
-    $("#anim").trigger("click");
-  });
+  //$("#mosaicContainer").on( "click", function() {
+  //  $("#anim").trigger("click");
+  //});
 
-  //$("#col-droite")[0].classList.value = colDroite;
-  //$("#col-gauche")[0].classList.value = colGauche;
+  $("#col-droite")[0].classList.value = colDroite;
+  $("#col-gauche")[0].classList.value = colGauche;
 
   // Changement de taille d'un div
   const observer = new ResizeObserver(() => {
@@ -853,10 +981,7 @@ $(document).ready(function () {
   // charger les Menus
   refreshAllMenus();
 
-  // start anim
-  // $("#anim").trigger("click");
-
-  // cadrillage gpt
-  $("#mosaicGridOverlay").css("display", "none");
+  // previous state
+  // loadForm("_auto");
 
 });
