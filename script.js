@@ -57,17 +57,18 @@ function generateMosaicGrid() {
 }
 
 function renderGrid(grid, H, L, colors) {
-    let html = `<div id="mosaicGridOverlay"></div>
+    let html = `<div id="mosaicGridOverlay">
                 <div id="mosaic" style="grid-template-columns: repeat(${L}, 1fr);">`;
     grid.flat().forEach((type, i) => {
         html += `<div class="tile ${type}" style="background-color:${colors[type]};  aspect-ratio: 1;"></div>`;
     });
-    html += '</div>';
+    html += '</div></div>';
 
     document.documentElement.style.setProperty('--rows', H);
     document.documentElement.style.setProperty('--cols', L);
     $('#mosaicContainer').html(html);
 
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++
     mosaic = $("#mosaic")[0];
     jqMosaic = $("#mosaic");
 
@@ -159,7 +160,9 @@ function renderGrid(grid, H, L, colors) {
           $("#mosaic").css("overflow", "clip");
     else  $("#mosaic").css("overflow", "visible");
 
-    $("#mosaicGridOverlay").css("display", "none");
+    //$("#mosaicGridOverlay").css("display", "none");
+    if ( $("#box")[0].checked ) boxOn(); else boxOff();
+
 }
 ////////////////////////////////// E N D renderGrid
 
@@ -329,7 +332,7 @@ function handleDouble() {
                 top: document.documentElement.scrollHeight,
                 behavior: 'smooth' // optional
               });
-          }, 450);
+          }, 400);
 
         }
         formVisible = !formVisible;
@@ -377,16 +380,13 @@ function setBorderSize() {
 }
 
 
-/////// quadrillage on off
+/////// carrelage on off (box)
 function boxOn() {
   $(".tile").css({"box-shadow": "0 0 0 0.3px currentColor", "tansform": "translate(-0.3px, -0.3px)"});
 }
 function boxOff() {
   $(".tile").css({"box-shadow": "0 0 0 0", "tansform": "none"});
 }
-
-
-// box-shadow: 0 0 0 0.2px currentColor;transform: translate(-0.2px, -0.2px);
 
 ////// MMM pix size unit
 function mosaPix(val) {
@@ -653,6 +653,8 @@ $(document).ready(function () {
     }
   });
 */
+
+
   $(function() {
     var lastUpTime = 0, lastX = 0, lastY = 0;
     var THRESH_MS = 350, THRESH_PX = 30;
@@ -681,11 +683,6 @@ $(document).ready(function () {
       }
     });
 
-    // si tu veux aussi gérer dblclick natif pour la souris (optionnel)
-    /*$('.btn').on('dblclick', function(e){
-      clearTimeout(singleTimer);
-      doubleAction($(this), e);
-    });*/
 
     function singleAction($el, e){
        console.log('single', $el);
@@ -693,10 +690,16 @@ $(document).ready(function () {
     }
     function doubleAction($el, e){
       console.log('double', $el);
-      handleDouble();
+      //handleDouble();
     }
   });
 
+  /////////////////////////////////
+  $("#btnZoom").on("click", function(e) {
+    if ( formVisible ) $("#this").css("backgroundColor", "#aaa");
+    else $("#this").css("backgroundColor", "#eee");
+    handleDouble();
+  });
 
   ////// Animation
   $(document).on("input", "#anim", function(e) {
@@ -913,8 +916,13 @@ $(document).ready(function () {
       $("#submit").trigger("click");
     }
   });
-
 //////
+
+  ////// box (carreaux)
+  $(document).on("input", "#box", function(e) {
+    if ( $("#box")[0].checked ) boxOn();
+    else boxOff();
+  });
 
 
     //////              S U B M I T
