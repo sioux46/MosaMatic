@@ -22,6 +22,10 @@ const SIDE_UNITS = 100;
 const MIN_VISIBLE_UNITS = 4;
 let mosaic;
 let jqMosaic;
+let gridLine = 2.5;
+let gridGap = 4;
+let boxRgba = 'rgba(150,150,150,.7)';
+let boxColor = "#aaaaaa";
 
 
 function generateMosaicGrid() {
@@ -57,18 +61,18 @@ function generateMosaicGrid() {
 }
 
 function renderGrid(grid, H, L, colors) {
-    let html = `<div id="mosaicGridOverlay">
+    let html = `<div id="mosaicGridOverlay"></div>
                 <div id="mosaic" style="grid-template-columns: repeat(${L}, 1fr);">`;
     grid.flat().forEach((type, i) => {
         html += `<div class="tile ${type}" style="background-color:${colors[type]};  aspect-ratio: 1;"></div>`;
     });
-    html += '</div></div>';
+    html += '</div>';
 
     document.documentElement.style.setProperty('--rows', H);
     document.documentElement.style.setProperty('--cols', L);
     $('#mosaicContainer').html(html);
 
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++++++
     mosaic = $("#mosaic")[0];
     jqMosaic = $("#mosaic");
 
@@ -125,7 +129,7 @@ function renderGrid(grid, H, L, colors) {
       tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
       tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
 
-    }); /////    end $(".tile").each
+    }); ///////////////////////////    end $(".tile").each
 
 
     // tiles visibility
@@ -160,9 +164,11 @@ function renderGrid(grid, H, L, colors) {
           $("#mosaic").css("overflow", "clip");
     else  $("#mosaic").css("overflow", "visible");
 
-    //$("#mosaicGridOverlay").css("display", "none");
-    if ( $("#box")[0].checked ) boxOn(); else boxOff();
+    $('#mosaicGridOverlay').toggle($('#box').prop('checked'));
 
+    document.documentElement.style.setProperty('--grid-line', mosaPix(gridLine) + "px");
+    document.documentElement.style.setProperty('--grid-gap', mosaPix(gridGap) + "px");
+    document.documentElement.style.setProperty('--box-rgba', boxRgba);
 }
 ////////////////////////////////// E N D renderGrid
 
@@ -246,24 +252,7 @@ function changeColor(color, val) {
   }
 }
 
-/*function changeFrame(frame) {  // not used
-
-  let color;
-  if ( frame ) color = $("#frameColor").val();
-  else color = "white";
-  let padding;
-
-  if ( !frame ) {
-    $("#mosaic").css("border", 0);
-  }
-  else {
-    $("#mosaic").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
-    $("#mosaic").css("border", mosaPix($("#frameSize").val()) + "px solid " + color);
-  }
-}
-*/
-
-
+//////                    convert rgb <--> hexa
 function rgbToHex(rgb) {
   // extrait les nombres de la chaîne "rgb(r, g, b)"
   const [r, g, b] = rgb.match(/\d+/g).map(Number);
@@ -273,7 +262,6 @@ function rgbToHex(rgb) {
 }
 // Exemple
 // console.log(rgbToHex('rgb(12, 34, 56)')); // → #0c2238
-
 function hexToRgb(hex) {
   // enlève le # si présent
   hex = hex.replace(/^#/, '');
@@ -292,6 +280,44 @@ function hexToRgb(hex) {
 // Exemples
 // console.log(hexToRgb("#0c2238")); // → rgb(12, 34, 56)
 // console.log(hexToRgb("#fff"));    // → rgb(255, 255, 255)
+
+function hexToRgba(hex, defaultAlpha = 1) {
+  hex = hex.replace(/^#/, '');
+
+  // formats courts (#rgb, #rgba)
+  if (hex.length === 3 || hex.length === 4) {
+    hex = hex
+      .split('')
+      .map(c => c + c)
+      .join('');
+  }
+
+  let r, g, b, a = defaultAlpha;
+
+  if (hex.length === 6) {
+    // #rrggbb
+    const bigint = parseInt(hex, 16);
+    r = (bigint >> 16) & 255;
+    g = (bigint >> 8) & 255;
+    b = bigint & 255;
+  } else if (hex.length === 8) {
+    // #rrggbbaa
+    const bigint = parseInt(hex, 16);
+    r = (bigint >> 24) & 255;
+    g = (bigint >> 16) & 255;
+    b = (bigint >> 8) & 255;
+    a = (bigint & 255) / 255;
+  } else {
+    throw new Error("Format hex invalide");
+  }
+
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+// exemples:
+// hexToRgba("#f00");        // rgba(255, 0, 0, 1)
+// hexToRgba("#f008");      // rgba(255, 0, 0, 0.53)
+// hexToRgba("#ff000080");  // rgba(255, 0, 0, 0.5)
+// hexToRgba("#00ff00", 0.3); // rgba(0, 255, 0, 0.3)
 
 ////// Animation
 function animagic() {
@@ -381,12 +407,12 @@ function setBorderSize() {
 
 
 /////// carrelage on off (box)
-function boxOn() {
+/*function boxOn() {
   $(".tile").css({"box-shadow": "0 0 0 0.3px currentColor", "tansform": "translate(-0.3px, -0.3px)"});
 }
 function boxOff() {
   $(".tile").css({"box-shadow": "0 0 0 0", "tansform": "none"});
-}
+}*/
 
 ////// MMM pix size unit
 function mosaPix(val) {
@@ -457,6 +483,9 @@ function loadForm(name) {
     input.dispatchEvent(new Event('input'));
     input.dispatchEvent(new Event('change'));
   });
+
+  boxRgba = hexToRgba($("#boxColor").val());
+  document.documentElement.style.setProperty('--box-rgba', boxRgba);
 
   if ( $("#anim")[0].checked ) animagic($("#anim2").val());
   $("#submit").trigger("click");
@@ -570,7 +599,7 @@ $(document).ready(function () {
 
   // screenshot
   document.getElementById("btnCapture").addEventListener("click", () => {
-    const node = document.getElementById("mosaic");
+    const node = document.getElementById("mosaicContainer");
 
     // to .png
     domtoimage.toPng(node)
@@ -902,6 +931,10 @@ $(document).ready(function () {
     $("#mosaic").css("background-color", backColor);
   });
 
+  $(document).on("input", "#boxColor", function(e) {
+    boxColor = this.value;
+    document.documentElement.style.setProperty('--box-rgba', hexToRgba(boxColor, 0.3));
+  });
 
   $(document).on("input", "#square", function(e) {
     if ( $("#square")[0].checked && $("#width").val() != $("#height").val() ) {
@@ -919,11 +952,13 @@ $(document).ready(function () {
 //////
 
   ////// box (carreaux)
-  $(document).on("input", "#box", function(e) {
+  /*$(document).on("input", "#box", function(e) {
     if ( $("#box")[0].checked ) boxOn();
     else boxOff();
+  });*/
+  $('#box').on('change', function () {
+    $('#mosaicGridOverlay').toggle(this.checked);
   });
-
 
     //////              S U B M I T
   $('#mosaicForm').submit(function (event) {
@@ -983,11 +1018,16 @@ $(document).ready(function () {
     mosaic.css("border-width", mosaPix($frameSize.val()) + "px");
     mosaic.css("border-radius", mosaPix($("#frameAngle").val()) + "px");
     mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
+    document.documentElement.style.setProperty('--grid-line', mosaPix(gridLine) + "px");
+    document.documentElement.style.setProperty('--grid-gap', mosaPix(gridGap) + "px");
+    document.documentElement.style.setProperty('--box-rgba', boxRgba);
   });
   observer.observe($("#mosaicContainer")[0]);
 
   // charger les Menus
   refreshAllMenus();
+
+
 
   // previous state
   // loadForm("_auto");
