@@ -1021,6 +1021,7 @@ $(document).ready(function () {
     mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
     document.documentElement.style.setProperty('--grid-line', mosaPix(gridLine) + "px");
     document.documentElement.style.setProperty('--grid-gap', mosaPix(gridGap) + "px");
+    boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
   });
   observer.observe($("#mosaicContainer")[0]);
