@@ -22,9 +22,9 @@ const SIDE_UNITS = 100;
 const MIN_VISIBLE_UNITS = 4;
 let mosaic;
 let jqMosaic;
-let gridLine = 2.5;
-let gridGap = 4;
-let boxRgba = 'rgba(150,150,150,.7)';
+let gridLine = 2.5;//2.5;
+let gridGap = 4;//4;
+let boxRgba = 'rgba(150,150,150,1)';
 let boxColor = "#aaaaaa";
 
 
@@ -168,6 +168,7 @@ function renderGrid(grid, H, L, colors) {
 
     document.documentElement.style.setProperty('--grid-line', mosaPix(gridLine) + "px");
     document.documentElement.style.setProperty('--grid-gap', mosaPix(gridGap) + "px");
+    boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
 }
 ////////////////////////////////// E N D renderGrid
@@ -484,7 +485,7 @@ function loadForm(name) {
     input.dispatchEvent(new Event('change'));
   });
 
-  boxRgba = hexToRgba($("#boxColor").val());
+  boxRgba = hexToRgba($("#boxColor").val(),1);
   document.documentElement.style.setProperty('--box-rgba', boxRgba);
 
   if ( $("#anim")[0].checked ) animagic($("#anim2").val());
@@ -933,7 +934,7 @@ $(document).ready(function () {
 
   $(document).on("input", "#boxColor", function(e) {
     boxColor = this.value;
-    document.documentElement.style.setProperty('--box-rgba', hexToRgba(boxColor, 0.3));
+    document.documentElement.style.setProperty('--box-rgba', hexToRgba(boxColor, 1));
   });
 
   $(document).on("input", "#square", function(e) {
