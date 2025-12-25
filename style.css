@@ -68,6 +68,12 @@ span,
   cursor: pointer;
 }
 
+#gap {
+  height: 0.2rem;
+  display: block;
+  background-color: #d8d8d8;
+}
+
 #manualPieceSelector {
   display: flex;
   gap: 10px;
