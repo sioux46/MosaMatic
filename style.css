@@ -18,7 +18,10 @@
     );
   background-size:
       calc(100% / var(--cols)) calc(100% / var(--rows));
+  background-position:
+      var(--grid-offset-x, 0) var(--grid-offset-y, 0);
 }
+
 
 #mosaicContainer {
   position: relative;

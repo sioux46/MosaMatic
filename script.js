@@ -26,6 +26,7 @@ let gridLine = 2.5;//2.5;
 let gridGap = 4;//4;
 let boxRgba = 'rgba(150,150,150,1)';
 let boxColor = "#aaaaaa";
+let tilePx;
 
 
 function generateMosaicGrid() {
@@ -166,10 +167,12 @@ function renderGrid(grid, H, L, colors) {
 
     $('#mosaicGridOverlay').toggle($('#box').prop('checked'));
 
-    document.documentElement.style.setProperty('--grid-line', mosaPix(gridLine) + "px");
-    document.documentElement.style.setProperty('--grid-gap', mosaPix(gridGap) + "px");
+    document.documentElement.style.setProperty('--grid-line', calTilePx(gridLine) + "px");
+    document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
+    document.documentElement.style.setProperty('--grid-offset-x', '-1px');
+    document.documentElement.style.setProperty('--grid-offset-y', '-1px');
 }
 ////////////////////////////////// E N D renderGrid
 
@@ -423,7 +426,14 @@ function mosaPix(val) {
   else return val * mosaPixUnit * mosaic.height();
 }
 
-function mosaPix2() {  /// for redraw only
+////// tile pix size unit
+function calTilePx(val) {
+let tileSize = $("#mosaic").height() / $("#height").val();
+  return tileSize / 150 * val;
+}
+
+/// for redraw only
+function mosaPix2() {
   const slider = document.getElementById("borderSize2");
   const sliderValue = parseInt(slider.value, 10);
   const mosaicRect = mosaic.getBoundingClientRect();
@@ -1019,10 +1029,12 @@ $(document).ready(function () {
     mosaic.css("border-width", mosaPix($frameSize.val()) + "px");
     mosaic.css("border-radius", mosaPix($("#frameAngle").val()) + "px");
     mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
-    document.documentElement.style.setProperty('--grid-line', mosaPix(gridLine) + "px");
-    document.documentElement.style.setProperty('--grid-gap', mosaPix(gridGap) + "px");
+    document.documentElement.style.setProperty('--grid-line', calTilePx(gridLine) + "px");
+    document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
+    document.documentElement.style.setProperty('--grid-offset-x', '-1px');
+    document.documentElement.style.setProperty('--grid-offset-y', '-1px');
   });
   observer.observe($("#mosaicContainer")[0]);
 
