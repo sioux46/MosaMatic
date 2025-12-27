@@ -14,7 +14,7 @@
       <h1 class="text-center" style="margin-bottom:0;"><span>MosaMagic</span></h1>
       <h6 class="text-center">Moderne</h6>
 <div class="row"> <!-- global -->
-  <div id="col-gauche" class="col-md-6 col-sm-8">
+  <div id="col-gauche" class="col-md-6 col-sm-7">
       <form id="mosaicForm" style="position:relative;">
         <!---->
         <div class="row mb-1">
@@ -68,7 +68,7 @@
         </div>
         <!--                   Angle  Large/Haut-->
         <div class="row mb-0">
-          <div class="col-5 col-md-6 col-sm-5 mb-2">
+          <div class="col-6 col-md-6 col-sm-6 mb-2">
             <div class="input-group">
               <div class="input-group-text">Angle</div>
               <input id="angle" type="number" min="1" max="200" step="1" class="form-control" placeholder="" value="1">
@@ -79,7 +79,7 @@
           </div>
         </div>
         <!---->
-        <div class="row mb-0">
+        <div class="row mb-2">
           <div class="col-md-6 col-6">
             <div class="input-group" style="position: relative;">
               <div class="form-check form-switch">
@@ -102,7 +102,7 @@
         </div>
         <!---->
         <div class="row mb-0">
-          <div class="col-5 col-md-6 col-sm-5">
+          <div class="col-6 col-md-6 col-sm-6">
             <div class="input-group">
               <div class="input-group-text">Large</div>
               <input id="width" type="number" min="2" max="100" step="1" class="form-control" placeholder="Largeur (L)" value="5">
@@ -114,7 +114,7 @@
         </div>
         <!---->
         <div class="row mb-2">
-          <div class="col-5 col-md-6 col-sm-5">
+          <div class="col-6 col-md-6 col-sm-6">
             <div class="input-group">
               <div class="input-group-text">Haut&nbsp;&nbsp;</div>
               <input id="height" type="number" min="2" max="100" step="1" class="form-control" placeholder="Hauteur (H)" value="5">
@@ -124,29 +124,21 @@
             <input id="height2" type="range" class="form-range" min="2" max="100" step="1" value="5">
           </div>
         </div>
-        <!---->
-        <div class="row mb-0">
-          <div class="col-5 col-md-6 col-sm-5">
+        <!--                   Bords  -->
+        <div class="row mb-2">
+          <div class="col-5">
             <div class="input-group">
-              <div class="input-group-text">Bords</div>
+              <div class="input-group-text">
+                  <label class="form-check-label">Bords</label>
+                </div>
               <input id="borderSize" type="number" min="0" max="100" step="1" class="form-control" placeholder="Largeur des bords" value="0">
             </div>
           </div>
-          <div class="col">
+          <div class="col-4">
             <input id="borderSize2" type="range" class="form-range" min="0" max="100" step="1" value="0">
           </div>
-        </div>
-        <!--                   Bords  -->
-        <div class="row mb-2">
-          <div class="col-md-6 col-6">
-            <div class="input-group">
-              <div class="input-group-text">
-                <div>
-                  <span class="form-check-label text-center">Bords</span>
-                </div>
-              </div>
-              <input id="borderColor" type="color" value="#444444" class="form-control color-input">
-            </div>
+          <div class="col-3">
+            <input id="borderColor" type="color" value="#444444" class="form-control color-input">
           </div>
         </div>
         <!---->
@@ -287,7 +279,7 @@
         <!---->
       </form>
   </div> <!--fin col gauche-->
-  <div id="col-droite" class="col-md-6 col-sm-4">
+  <div id="col-droite" class="col-md-6 col-sm-5">
       <!---->
       <div class= "row">
         <div class= "col-12">
@@ -295,13 +287,13 @@
         </div>
       </div>
       <div class= "row">
-        <div class= "col-3">
+        <div class= "col-4">
           <button id="btnZoom" type="button" class="btn btn-sm btn-light w-100">Zoom</button>
         </div>
-        <div class= "col-6">
+        <div class= "col-4">
           <button id="btnMosaMagic" type="button" class="btn btn-sm btn-light w-100">MosaMagic</button>
         </div>
-        <div class= "col-3">
+        <div class= "col-4">
           <button id="btnCapture" type="button" class="btn btn-sm btn-light w-100">Photo</button>
         </div>
         <!--

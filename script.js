@@ -654,6 +654,7 @@ $(document).ready(function () {
 
 ///////////////////
   $("#btnMosaMagic").on("click", () => { $("#submit").trigger("click"); });
+  $("#mosaicContainer").on("click", () => { $("#submit").trigger("click"); });
 
   // screenshot
   document.getElementById("btnCapture").addEventListener("click", () => {
@@ -743,7 +744,7 @@ $(document).ready(function () {
 
 
   $(function() {
-    var lastUpTime = 0, lastX = 0, lastY = 0;
+    /*var lastUpTime = 0, lastX = 0, lastY = 0;
     var THRESH_MS = 350, THRESH_PX = 30;
     var singleTimer = null;
 
@@ -768,17 +769,17 @@ $(document).ready(function () {
           lastUpTime = 0;
         }, THRESH_MS + 20);
       }
-    });
+    });*/
 
 
-    function singleAction($el, e){
+    /*function singleAction($el, e){
        console.log('single', $el);
        $("#submit").trigger("click");
     }
     function doubleAction($el, e){
       console.log('double', $el);
       //handleDouble();
-    }
+    }*/
   });
 
   /////////////////////////////////
@@ -984,7 +985,7 @@ $(document).ready(function () {
     else  $("#mosaic").css("background-color", "#ffffff");
   });
 
-  $(document).on("input", "#backColor", function(e) {
+$(document).on("input", "#backColor", function(e) {
     backColor = this.value;
     $("#mosaic").css("background-color", backColor);
   });
