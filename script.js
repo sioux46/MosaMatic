@@ -26,8 +26,7 @@ let gridLine = 2.5;//2.5;
 let gridGap = 4;//4;
 let boxRgba = 'rgba(150,150,150,1)';
 let boxColor = "#aaaaaa";
-let tilePx;
-
+// vidéo
 
 function generateMosaicGrid() {
 
@@ -89,7 +88,7 @@ function renderGrid(grid, H, L, colors) {
     let borderPix = mosaPix2();
     let radius = $("#angle").val() + "px";
 
-    //////           start $(".tile").each
+    //////           start $(".tile").each  /////////////////////
     $(".tile").each(function (index) {
       let tile = this;
       let row = Math.floor(index / L);
@@ -130,7 +129,7 @@ function renderGrid(grid, H, L, colors) {
       tile.style.borderBottomLeftRadius = borders.bottom && borders.left ? radius : "0";
       tile.style.borderBottomRightRadius = borders.bottom && borders.right ? radius : "0";
 
-    }); ///////////////////////////    end $(".tile").each
+    }); ///////////////////////////    end $(".tile").each  //////////////////////////////////
 
 
     // tiles visibility
@@ -565,10 +564,6 @@ function toggleDeleteMenu() {
   select.disabled = getSaveList().length === 0;
 }
 
-
-
-
-
 function resizeMosaic() {
     const container = document.getElementById('mosaicContainer');
 
@@ -599,14 +594,66 @@ window.addEventListener('resize', () => {
     setTimeout(resizeMosaic, 300);
 });
 
+
+//////////////////////////               video
+
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const stream = canvas.captureStream(30); // 30 fps
+  const recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+
+  let chunks = [];
+
+  recorder.ondataavailable = e => chunks.push(e.data);
+
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: "video/webm" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "video.webm";
+    a.click();
+  };
+
+let capturing = false;
+
+function captureFrame() {
+  if (capturing) return;
+  capturing = true;
+
+  html2canvas(mosaicContainer).then(snapshot => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(snapshot, 0, 0, canvas.width, canvas.height);
+    capturing = false;
+  });
+}
+
+  let interval;
+
+  //*******  A remettre pour la video ************
+  /*document.getElementById("start").onclick = () => {
+    canvas.width = $("#mosaicContainer").width();
+    canvas.height = $("#mosaicContainer").height();
+    recorder.start();
+    interval = setInterval(captureFrame, 1000 / 30);
+  };
+  document.getElementById("stop").onclick = () => {
+    clearInterval(interval);
+    recorder.stop();
+  };*/
+
   //***************************************** FIN FONCTIONS  **********
-
-
 
 ///////////////////////////////////////////////////////////////////                 //////
 ///////////////////////////////////////////////////////////////////  R  E  A  D  Y  //////
 ///////////////////////////////////////////////////////////////////                 //////
 $(document).ready(function () {
+
+
+///////////////////
+  $("#btnMosaMagic").on("click", () => { $("#submit").trigger("click"); });
 
   // screenshot
   document.getElementById("btnCapture").addEventListener("click", () => {
