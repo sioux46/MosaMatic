@@ -170,8 +170,8 @@ function renderGrid(grid, H, L, colors) {
     document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
-    document.documentElement.style.setProperty('--grid-offset-x', '-1px');
-    document.documentElement.style.setProperty('--grid-offset-y', '-1px');
+    document.documentElement.style.setProperty('--grid-offset-x', calTilePx(1)); // '-1px');
+    document.documentElement.style.setProperty('--grid-offset-y', calTilePx(1)); // '-1px');
 }
 ////////////////////////////////// E N D renderGrid
 
@@ -419,7 +419,6 @@ function boxOff() {
 
 ////// MMM pix size unit
 function mosaPix(val) {
-  //return val;sc
   const mosaic = $("#mosaic");
   if ( mosaic.height() > mosaic.width() ) return val * mosaPixUnit * mosaic.width();
   else return val * mosaPixUnit * mosaic.height();
@@ -654,7 +653,11 @@ $(document).ready(function () {
 
 ///////////////////
   $("#btnMosaMagic").on("click", () => { $("#submit").trigger("click"); });
-  $("#mosaicContainer").on("click", () => { $("#submit").trigger("click"); });
+
+  $("#mosaicContainer").on("click", () => {
+    if ( $("#anim")[0].checked ) $("#anim").trigger("click");
+    else $("#submit").trigger("click");
+  });
 
   // screenshot
   document.getElementById("btnCapture").addEventListener("click", () => {
@@ -1015,30 +1018,30 @@ $(document).on("input", "#backColor", function(e) {
     if ( $("#box")[0].checked ) boxOn();
     else boxOff();
   });*/
-  $('#box').on('change', function () {
-    $('#mosaicGridOverlay').toggle(this.checked);
+  $("#box").on("change", function () {
+    $("#mosaicGridOverlay").toggle(this.checked);
   });
 
     //////              S U B M I T
-  $('#mosaicForm').submit(function (event) {
+  $("#mosaicForm").submit(function (event) {
       event.preventDefault();
       //manualMode = false;
     //  generateMosaicGrid();
     scheduleUpdate();  // requestAnimationFrame
   });
 
-  $('#toggleManualBtn').click(function () {
+  $("#toggleManualBtn").click(function () {
       manualMode = !manualMode;
       if (manualMode) {
           alert('Mode manuel activé : cliquez sur les cases pour placer des pièces.');
           setupManualSelector();
       } else {
-          $('#manualPieceSelector').remove();
+          $("#manualPieceSelector").remove();
       }
   });
 
   //              P R I N T    mosaic
-  $('#exportBtn').click(function () {
+  $("#exportBtn").click(function () {
       html2canvas(document.querySelector("#mosaicContainer")).then(canvas => {
           let link = document.createElement('a');
           link.href = canvas.toDataURL("image/png");
@@ -1081,8 +1084,8 @@ $(document).on("input", "#backColor", function(e) {
     document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
-    document.documentElement.style.setProperty('--grid-offset-x', '-1px');
-    document.documentElement.style.setProperty('--grid-offset-y', '-1px');
+    document.documentElement.style.setProperty('--grid-offset-x', calTilePx(1)); //'-1px');
+    document.documentElement.style.setProperty('--grid-offset-y', calTilePx(1)); //'-1px');
   });
   observer.observe($("#mosaicContainer")[0]);
 
