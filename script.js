@@ -170,8 +170,8 @@ function renderGrid(grid, H, L, colors) {
     document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
-    document.documentElement.style.setProperty('--grid-offset-x', calTilePx(1)); // '-1px');
-    document.documentElement.style.setProperty('--grid-offset-y', calTilePx(1)); // '-1px');
+    document.documentElement.style.setProperty('--grid-offset-x', -calTilePx(1) + "px"); // '-1px');
+    document.documentElement.style.setProperty('--grid-offset-y', -calTilePx(1) + "px"); // '-1px');
 }
 ////////////////////////////////// E N D renderGrid
 
@@ -1084,8 +1084,8 @@ $(document).on("input", "#backColor", function(e) {
     document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
-    document.documentElement.style.setProperty('--grid-offset-x', calTilePx(1)); //'-1px');
-    document.documentElement.style.setProperty('--grid-offset-y', calTilePx(1)); //'-1px');
+    document.documentElement.style.setProperty('--grid-offset-x', -calTilePx(1) + "px"); //'-1px');
+    document.documentElement.style.setProperty('--grid-offset-y', -calTilePx(1) + "px"); //'-1px');
   });
   observer.observe($("#mosaicContainer")[0]);
 
