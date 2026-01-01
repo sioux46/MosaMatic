@@ -468,14 +468,14 @@ function saveForm(name) {
   });
 
   localStorage.setItem('mosaic_' + name, JSON.stringify(data));
-  //if ( name != "_auto" ) alert(name + '" enregistrée');
+  if ( name != "_auto" ) alert(name + '" enregistrée');
 }
 
 //////
 function loadForm(name) {
   const saved = localStorage.getItem('mosaic_' + name);
   if (!saved) {
-    //alert('Zéro sauvegarde');
+    alert('Pas de sauvegarde');
     return;
   }
   //refreshSaveSelect();
