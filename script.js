@@ -858,7 +858,6 @@ $(document).ready(function () {
   $(document).on("input", "#frameSize2", function (e) {
     $("#mosaic").css("border-width", mosaPix($frameSize2.val()) + "px");
     $frameSize.val(this.value);
-    //$("#frameSize2").val(this.value);
     if ( $frameSize.val() == "0" )
           $("#mosaic").css("border-width", 0);
   });
