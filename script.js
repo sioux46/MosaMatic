@@ -395,7 +395,7 @@ function setBorderSize() {
   );
 
    // bordure maximale autorisée (reste visible au centre)
-   const borderMaxPx = tileSize * 0.45;
+   const borderMaxPx = tileSize * 0.45; // 0.45
 
    // slider = pourcentage du maximum
    const borderPx = (sliderValue / 100) * borderMaxPx + "px";
