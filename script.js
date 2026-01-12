@@ -156,7 +156,7 @@ function renderGrid(grid, H, L, colors) {
     $("#mosaic").css("padding", paddingSize);
 
     let back = $("#back").get(0).checked;
-    if ( back) $("#mosaic").css("background-color", backColor);
+    if ( back) $("#mosaic").css("background-color", $("#backColor").val());
     else $("#mosaic").css("background-color", "#fff");
 
     let rogner = $("#rogner").get(0).checked;
@@ -336,7 +336,6 @@ function animagic() {
 
 ////// fullScreen
 function handleDouble() {
-    console.log("DOUBLE CLIC / DOUBLE TAP !");
     if ( formVisible ) {
        // Masquer colonne gauche avec slide
        $("#col-gauche").slideUp(400, function () {
@@ -380,9 +379,12 @@ function scheduleUpdate() {
 
 /////////////////////////////////  setBorderSize
 function setBorderSize() {
+
+
   const slider = document.getElementById("borderSize2");
   const sliderValue = parseInt(slider.value, 10);
-  const mosaicRect = mosaic.getBoundingClientRect();
+  //const mosaicRect = mosaic.getBoundingClientRect();
+  const mosaicRect = getContentBox(mosaic);
   const rows = parseInt(
     getComputedStyle(document.documentElement).getPropertyValue('--rows'), 10);
   const cols = parseInt(
@@ -394,20 +396,25 @@ function setBorderSize() {
     mosaicRect.height / rows
   );
 
-   // bordure maximale autorisée (reste visible au centre)
+
+   //bordure maximale autorisée (reste visible au centre)
    const borderMaxPx = tileSize * 0.45; // 0.45
+
+   // seb bordure max autorisée pour éviter contenu négatif
+   //const borderMaxPx = Math.max( 0, tileSize / 2 - 0.5 );
+   //console.log("borderMaxPx: " + borderMaxPx);
 
    // slider = pourcentage du maximum
    const borderPx = (sliderValue / 100) * borderMaxPx + "px";
 
-   document.querySelectorAll(".tile").forEach(t => {
-       if (t.dataset.borderTop === "true")    t.style.borderTopWidth    = borderPx;
-       if (t.dataset.borderRight === "true")  t.style.borderRightWidth  = borderPx;
-       if (t.dataset.borderBottom === "true") t.style.borderBottomWidth = borderPx;
-       if (t.dataset.borderLeft === "true")   t.style.borderLeftWidth   = borderPx;
-    });
+  document.querySelectorAll(".tile").forEach(t => {
+    if (t.dataset.borderTop === "true")    t.style.borderTopWidth    = borderPx;
+    if (t.dataset.borderRight === "true")  t.style.borderRightWidth  = borderPx;
+    if (t.dataset.borderBottom === "true") t.style.borderBottomWidth = borderPx;
+    if (t.dataset.borderLeft === "true")   t.style.borderLeftWidth   = borderPx;
+  });
 }
-
+/////////////////////////////////////////////////////////////
 
 /////// carrelage on off (box)
 /*function boxOn() {
@@ -417,30 +424,18 @@ function boxOff() {
   $(".tile").css({"box-shadow": "0 0 0 0", "tansform": "none"});
 }*/
 
-////// MMM pix size unit
-function mosaPix(val) {
-  const mosaic = $("#mosaic");
-  if ( mosaic.height() > mosaic.width() ) return val * mosaPixUnit * mosaic.width();
-  else return val * mosaPixUnit * mosaic.height();
-}
-
-////// tile pix size unit
-function calTilePx(val) {
-let tileSize = $("#mosaic").height() / $("#height").val();
-  return tileSize / 150 * val;
-}
-
-/// for redraw only
+////// for redraw only
 function mosaPix2() {
   const slider = document.getElementById("borderSize2");
   const sliderValue = parseInt(slider.value, 10);
-  const mosaicRect = mosaic.getBoundingClientRect();
+  //const mosaicRect = mosaic.getBoundingClientRect();
+  const mosaicRect = getContentBox(mosaic);
   const rows = parseInt(
     getComputedStyle(document.documentElement).getPropertyValue('--rows'), 10);
   const cols = parseInt(
     getComputedStyle(document.documentElement).getPropertyValue('--cols'), 10);
 
-  // taille réelle d’un tile
+  ///// taille réelle d’un tile
   const tileSize = Math.min(
     mosaicRect.width / cols,
     mosaicRect.height / rows
@@ -642,6 +637,46 @@ function captureFrame() {
     clearInterval(interval);
     recorder.stop();
   };*/
+
+  function tileSizeOk() {
+    const tile = document.querySelector(".tile");
+    const clientMinSize = Math.min( tile.clientWidth, tile.clientHeight );
+    if ( clientMinSize < 1 ) return false;
+    else return true;
+  }
+
+  ////// mosaic pix size unit
+  function mosaPix(val) {
+    const mosaic = $("#mosaic")[0];
+    const mosaicRect = getContentBox(mosaic);
+    if ( mosaicRect.height > mosaicRect.width ) return val * mosaPixUnit * mosaicRect.width;
+    else return val * mosaPixUnit * mosaicRect.height;
+    //if ( mosaic.height() > mosaic.width() ) return val * mosaPixUnit * mosaic.width();
+    //else return val * mosaPixUnit * mosaic.height();
+  }
+
+  ////// tile pix size unit
+  function calTilePx(val) {
+    const mosaicRect = getContentBox(mosaic);
+    const tileSize = mosaicRect.height / $("#height").val();
+    return tileSize / 150 * val;
+  }
+
+  ////// contenu sans margin ni padding
+  function getContentBox(el) {
+    const s = getComputedStyle(el);
+    return {
+      width: Math.max(
+        0,
+        el.clientWidth - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight)
+      ),
+      height: Math.max(
+        0,
+        el.clientHeight - parseFloat(s.paddingTop) - parseFloat(s.paddingBottom)
+      )
+    };
+  }
+
 
   //***************************************** FIN FONCTIONS  **********
 
@@ -852,14 +887,40 @@ $(document).ready(function () {
 
   ////// frameSize
   $(document).on("input", "#frameSize", function(e) {
-    $("#mosaic").css("border-width", mosaPix($frameSize.val()) + "px");
-    $frameSize2.val(this.value);
+    if ( !tileSizeOk() && $frameSize2.val() < this.value ) $("#frameSize").val($frameSize2.val());
+    else {
+      $("#mosaic").css("border-width", mosaPix($frameSize.val()) + "px");
+      $frameSize2.val(this.value);
+      setBorderSize();
+    }
   });
   $(document).on("input", "#frameSize2", function (e) {
-    $("#mosaic").css("border-width", mosaPix($frameSize2.val()) + "px");
-    $frameSize.val(this.value);
-    if ( $frameSize.val() == "0" )
-          $("#mosaic").css("border-width", 0);
+    if ( !tileSizeOk() && $frameSize.val() < this.value ) $("#frameSize2").val($frameSize.val());
+    else {
+      $("#mosaic").css("border-width", mosaPix($frameSize2.val()) + "px");
+      $frameSize.val(this.value);
+      setBorderSize();
+      if ( $frameSize.val() == "0" ) $("#mosaic").css("border-width", 0);
+    }
+  });
+
+  ////// paddingSize
+  $(document).on("input", "#paddingSize", function(e) {
+    if ( !tileSizeOk() && $("#paddingSize2").val() < this.value ) $("#paddingSize").val($("#paddingSize2").val());
+    else {
+      $("#mosaic").css("padding", mosaPix($("#paddingSize").val()) + "px");
+      $("#paddingSize2").val(this.value);
+      setBorderSize();
+    }
+  });
+  $(document).on("input", "#paddingSize2", function (e) {
+    if ( !tileSizeOk() && $("#paddingSize").val() < this.value ) $("#paddingSize2").val($("#paddingSize").val());
+    else {
+      $("#mosaic").css("padding", mosaPix($("#paddingSize2").val()) + "px");
+      $("#paddingSize").val(this.value);
+      setBorderSize();
+      if ( $("#paddingSize").val() == "0" ) $("#mosaic").css("padding", 0);
+    }
   });
 
   ////// borderSize
@@ -870,21 +931,6 @@ $(document).ready(function () {
   $(document).on("input", "#borderSize2", function (e) {
     $("#borderSize").val(this.value);
     setBorderSize();
-  });
-
-  ////// paddingSize
-  $(document).on("input", "#paddingSize", function(e) {
-    $("#mosaic").css("padding", mosaPix($("#paddingSize").val()) + "px");
-    $("#paddingSize2").val(this.value);
-    //$("#paddingSize").val(this.value);
-
-  });
-  $(document).on("input", "#paddingSize2", function (e) {
-    $("#mosaic").css("padding", mosaPix($("#paddingSize2").val()) + "px");
-    //$("#paddingSize2").val(this.value);
-    $("#paddingSize").val(this.value);
-    if ( $("#paddingSize").val() == "0" )
-          $("#mosaic").css("padding", 0);
   });
 
   ////// H & L
@@ -1072,19 +1118,21 @@ $(document).on("input", "#backColor", function(e) {
 
   // Changement de taille d'un div
   const observer = new ResizeObserver(() => {
-    // console.log("Le div a changé de taille !");
+    console.log("Le div a changé de taille !");
     setBorderSize();
     changeRadius($("#angle").val());
     let mosaic = $("#mosaic");
-    mosaic.css("border-width", mosaPix($frameSize.val()) + "px");
+    //mosaic.css("border-width", mosaPix($frameSize.val()) + "px");
     mosaic.css("border-radius", mosaPix($("#frameAngle").val()) + "px");
-    mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
+    //mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
     document.documentElement.style.setProperty('--grid-line', calTilePx(gridLine) + "px");
     document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
     boxRgba = hexToRgb($("#boxColor").val());
     document.documentElement.style.setProperty('--box-rgba', boxRgba);
     document.documentElement.style.setProperty('--grid-offset-x', -calTilePx(1) + "px"); //'-1px');
     document.documentElement.style.setProperty('--grid-offset-y', -calTilePx(1) + "px"); //'-1px');
+
+    $("#magicBlock").css("top", mosaic.height() - $("#mosaicContainer").height() + "px");
   });
   observer.observe($("#mosaicContainer")[0]);
 

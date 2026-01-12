@@ -248,52 +248,54 @@
           <div  id="mosaicContainer"></div>  <!--class="transition-width"-->
         </div>
       </div>
-      <div class= "row mb-2">
-        <div class= "col-4">
-          <button id="btnZoom" type="button" class="btn btn-sm btn-light w-100">Zoom</button>
+      <div id="magicBlock" class= "mb-4">
+        <div class= "row mb-2">
+          <div class= "col-4">
+            <button id="btnZoom" type="button" class="btn btn-sm btn-light w-100">Zoom</button>
+          </div>
+          <div class= "col-4">
+            <button id="btnMosaMagic" type="button" class="btn btn-sm btn-light w-100">Magic</button>
+          </div>
+          <div class= "col-4">
+            <button id="btnCapture" type="button" class="btn btn-sm btn-light w-100">Photo</button>
+          </div>
+          <!--
+          <div class= "col-2">
+            <button id="start" type="button" class="btn btn-sm btn-light w-100">V start</button>
+          </div>
+          <div class= "col-2">
+            <button id="stop" type="button" class="btn btn-sm btn-light w-100">V stop</button>
+          </div>
+          -->
         </div>
-        <div class= "col-4">
-          <button id="btnMosaMagic" type="button" class="btn btn-sm btn-light w-100">Magic</button>
+        <!-- sauvegarde -->
+        <div class="row mb-0">
+          <div class="col-6">
+            <input id="saveName" type="text"
+                   class="form-control form-control-sm"
+                   placeholder="Nom sauvegarde">
+          </div>
+          <div class="col-6">
+            <select id="loadSelect"
+                    class="form-select form-select-sm">
+              <option value="">Charger…</option>
+            </select>
+          </div>
         </div>
-        <div class= "col-4">
-          <button id="btnCapture" type="button" class="btn btn-sm btn-light w-100">Photo</button>
-        </div>
-        <!--
-        <div class= "col-2">
-          <button id="start" type="button" class="btn btn-sm btn-light w-100">V start</button>
-        </div>
-        <div class= "col-2">
-          <button id="stop" type="button" class="btn btn-sm btn-light w-100">V stop</button>
-        </div>
-        -->
-      </div>
-      <!-- sauvegarde -->
-      <div class="row mb-0">
-        <div class="col-6">
-          <input id="saveName" type="text"
-                 class="form-control form-control-sm"
-                 placeholder="Nom sauvegarde">
-        </div>
-        <div class="col-6">
-          <select id="loadSelect"
-                  class="form-select form-select-sm">
-            <option value="">Charger…</option>
-          </select>
-        </div>
-      </div>
-      <!---->
-      <div class="row mb-2">
-        <div class="col-6">
-          <button id="saveBtn" type="button"
-                  class="btn btn-sm btn-success w-100">
-            Sauver
-          </button>
-        </div>
-        <div class="col-6">
-          <select id="deleteSelect"
-                  class="form-select form-select-sm text-danger">
-            <option value="">Supprimer…</option>
-          </select>
+        <!---->
+        <div class="row mb-2">
+          <div class="col-6">
+            <button id="saveBtn" type="button"
+                    class="btn btn-sm btn-success w-100">
+              Sauver
+            </button>
+          </div>
+          <div class="col-6">
+            <select id="deleteSelect"
+                    class="form-select form-select-sm text-danger">
+              <option value="">Supprimer…</option>
+            </select>
+          </div>
         </div>
       </div>
       <!--  fin sauvegarde -->
