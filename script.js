@@ -145,9 +145,10 @@ function renderGrid(grid, H, L, colors) {
     // Applique le cadre si nécessaire
     let bord = $("#mosaic").css("border-width");
     $("#mosaic, #mosaicGridOverlay").css("border", bord + " solid " + $("#frameColor").val());
+    $("#mosaicGridOverlay").css("border-color", "rgba(0,0,0,0)");
 
     let mosaAngle = mosaPix($("#frameAngle").val()) + "px";
-    $("#mosaic, #mosaicGridOverlay").css("border-radius", mosaAngle);
+    $("#mosaic").css("border-radius", mosaAngle);
     let frameSize = mosaPix($("#frameSize").val()) + "px";
     $("#mosaic, #mosaicGridOverlay").css("border-width", frameSize);
     let paddingSize = mosaPix($("#paddingSize").val()) + "px";
@@ -873,14 +874,14 @@ $(document).ready(function () {
 
   ////// frameAngle
   $(document).on("input", "#frameAngle", function(e) {
-    $("#mosaic, #mosaicGridOverlay").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
+    $("#mosaic").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
     $("#frameAngle2").val(this.value);
   });
   $(document).on("input", "#frameAngle2", function (e) {
-    $("#mosaic, #mosaicGridOverlay").css("border-radius", mosaPix($("#frameAngle2").val()) + "px");
+    $("#mosaic").css("border-radius", mosaPix($("#frameAngle2").val()) + "px");
     $("#frameAngle").val(this.value);
     if ( $("#frameAngle").val() == "0" )
-          $("#mosaic, #mosaicGridOverlay").css("border-radius", 0);
+          $("#mosaic").css("border-radius", 0);
   });
 
   ////// frameSize (border)
@@ -890,7 +891,6 @@ $(document).ready(function () {
       $("#mosaic, #mosaicGridOverlay").css("border-width", mosaPix($frameSize.val()) + "px");
       $frameSize2.val(this.value);
       setBorderSize();
-      //$("#mosaicGridOverlay").css("border", $("#mosaic").css("border"));
     }
   });
   $(document).on("input", "#frameSize2", function (e) {
@@ -899,7 +899,6 @@ $(document).ready(function () {
       $("#mosaic, #mosaicGridOverlay").css("border-width", mosaPix($frameSize2.val()) + "px");
       $frameSize.val(this.value);
       setBorderSize();
-      //$("#mosaicGridOverlay").css("border", $("#mosaic").css("border"));
       if ( $frameSize.val() == "0" ) $("#mosaic, #mosaicGridOverlay").css("border-width", 0);
     }
   });
@@ -1026,7 +1025,7 @@ $(document).ready(function () {
 
   $(document).on("input", "#frameColor", function(e) {
     frameColor = this.value;
-    $("#mosaic, #mosaicGridOverlay").css("border-color", frameColor);
+    $("#mosaic").css("border-color", frameColor);
   });
 
   $(document).on("input", "#back", function(e) {
@@ -1127,8 +1126,8 @@ $(document).on("input", "#backColor", function(e) {
     //mosaic.css("border-width", mosaPix($frameSize.val()) + "px");
 
     //mosaic.css("border-radius", mosaPix($("#frameAngle").val()) + "px");
-    $("#mosaic, #mosaicGridOverlay").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
-    
+    $("#mosaic").css("border-radius", mosaPix($("#frameAngle").val()) + "px");
+
     //mosaic.css("padding", mosaPix($("#paddingSize").val()) + "px");
     document.documentElement.style.setProperty('--grid-line', calTilePx(gridLine) + "px");
     document.documentElement.style.setProperty('--grid-gap', calTilePx(gridGap) + "px");
@@ -1137,7 +1136,8 @@ $(document).on("input", "#backColor", function(e) {
     document.documentElement.style.setProperty('--grid-offset-x', -calTilePx(1) + "px"); //'-1px');
     document.documentElement.style.setProperty('--grid-offset-y', -calTilePx(1) + "px"); //'-1px');
 
-$("#mosaicGridOverlay").css("border", $("#mosaic").css("border"));
+    $("#mosaicGridOverlay").css("border", $("#mosaic").css("border"));
+    $("#mosaicGridOverlay").css("border-color", "rgba(0,0,0,0)");
 
     $("#magicBlock").css("top", mosaic.height() - $("#mosaicContainer").height() + "px");
   });
