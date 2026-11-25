@@ -26,6 +26,8 @@ let gridLine = 2.5;//2.5;
 let gridGap = 4;//4;
 let boxRgba = 'rgba(150,150,150,1)';
 let boxColor = "#aaaaaa";
+let animPhase = 1;
+let animFlage = true;
 // vidéo
 
 function generateMosaicGrid() {
@@ -329,6 +331,13 @@ function animagic() {
 
   timer = setInterval(function() {
     $("#submit").trigger("click"); // génère la nouvelle mosaïque
+
+    if ( animPhase == 5 ) animPhase = 1;
+    let phase = animPhase;
+    if ( !animFlage ) animPhase++;
+    animFlage = !animFlage;
+    let tileTipe = "#tilec" + phase;
+    $(tileTipe).trigger("click"); // hide/display tiles
   }, time);
 }
 
